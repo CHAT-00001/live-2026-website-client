@@ -1,0 +1,32 @@
+# static/data/label/lock.toml
+[[notice]]
+lang = "en"
+text = "Enter password to unlock the information system"
+
+[[notice]]
+lang = "zh"
+text = "输入密码以解锁信息系统"
+
+[[notice]]
+lang = "zh-TW"
+text = "輸入密碼以解鎖資訊系統"
+
+[[notice]]
+lang = "ko"
+text = "정보 시스템을 잠금 해제하려면 비밀번호를 입력하세요"
+
+[[notice]]
+lang = "ja"
+text = "パスワードを入力して情報システムをロック解除してください"
+
+[[notice]]
+lang = "de"
+text = "Geben Sie das Passwort ein, um das Informationssystem zu entsperren"
+
+[[notice]]
+lang = "fr"
+text = "Entrez le mot de passe pour déverrouiller le système d'information"
+
+[[notice]]
+lang = "pt"
+text = "Digite a senha para desbloquear o sistema de informações"
