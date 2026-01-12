@@ -1,9 +1,10 @@
 // routes/api/video/nearby/+server.ts
 
-import { getVideoList } from '$lib/api/video.ts';
-import type { ApiRequestBody } from '$lib/models/api.ts';
-import type { RequestHandler } from './$types';
+import {getVideoList} from '$lib/api/video.ts';
+import type {ApiRequestBody} from '$lib/models/api.ts';
+import type {RequestHandler} from './$types';
 
+// @ts-ignore
 export const GET: RequestHandler = async ({ url }) => {
     const params: ApiRequestBody = {
         lat: url.searchParams.get('lat') || '',

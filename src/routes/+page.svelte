@@ -1,7 +1,15 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-    import type { PageData } from './$types';
-    import { onMount } from 'svelte';
+    import type {PageData} from './$types';
+    import {onMount} from 'svelte';
+
+    let site_info =
+        {
+            "name": "coke",
+            "cname": "可乐",
+            "url": "/",
+            "copyright": 2026,
+        };
 
     export let data: PageData;
     // 响应式数据（必须用let，不能用const）
@@ -95,23 +103,29 @@
         };
 
         // 绑定滚动事件（用捕获模式，确保不被拦截）
-        window.addEventListener('scroll', handleScroll, { capture: true, passive: true });
+        window.addEventListener('scroll', handleScroll, {capture: true, passive: true});
 
         // 组件销毁时移除
-        return () => window.removeEventListener('scroll', handleScroll, { capture: true });
+        return () => window.removeEventListener('scroll', handleScroll, {capture: true});
     });
 </script>
 
-<!-- 页面结构（保留你的UI） -->
-<div class="banner_led"><h1> VIDEO BANNER - 2026 </h1></div>
+<svelte:head>
+    <title>HOME - [ GEO - 10048 ] - 首页 - {site_info.name}</title>
+</svelte:head>
+
+<!-- led 2026-12-23 21:06:10 -->
+<div class="banner_led">
+    <a class="" href="/video/home"><h1> VIDEO BANNER - 2026 </h1></a>
+</div>
 
 <main class="video-list-container">
-    <header>
+    <div class="title_bar">
         <h1>热门视频</h1>
         {#if videos.length > 0}
             <p class="total-count">共 {formatNumber(data.total)} 条内容</p>
         {/if}
-    </header>
+    </div>
 
     {#if data.error}
         <div class="empty-state">
@@ -126,15 +140,20 @@
     {:else}
         <div class="video-grid">
             {#each videos as video (video.id)}
-                <a href={`/video/${video.id}?display=1&room_id=${video.id}_5100048914&r_mm=00000111114444466666`} target="_blank" class="video-card">
+                <a href={`/video/${video.id}?display=1&room_id=${video.id}_5100048914&r_mm=00000111114444466666`}
+                   target="_blank" class="video-card">
                     <div class="thumbnail-wrapper">
-                        <img src={video.thumb} alt={video.title} class="thumbnail" loading="lazy" on:error={handleImgError} />
+                        <img src={video.thumb}?imageView2/1/w/640/h/360 alt={video.title} class="thumbnail"
+                             loading="lazy"
+                             on:error={handleImgError}/>
                         <span class="duration">{video.duration || '00:00'}</span>
                         <span class="views-count">{formatNumber(video.views)}</span>
                     </div>
                     <div class="video-info">
                         <div class="author-info">
-                            <img src={video.avatar} alt={`${video.user_nickname}的头像`} class="author-avatar" on:error={handleImgError} />
+                            <img src="{video.avatar}?imageView2/2/w/50/h/50" alt={`${video.user_nickname}`}
+                                 class="author-avatar"
+                                 on:error={handleImgError}/>
                             <span class="author-name">{video.user_nickname}</span>
                         </div>
                         <h3 class="video-title">{video.title}</h3>
@@ -154,7 +173,7 @@
                 <p>加载中...</p>
             {:else if hasMore}
                 <button on:click={loadMore} style="padding: 10px 20px; cursor: pointer;">
-                    点击加载更多（第{currentPage+1}页）
+                    点击加载更多（第{currentPage + 1}页）
                 </button>
             {:else}
                 <p>没有更多内容了</p>
@@ -163,50 +182,131 @@
     {/if}
 </main>
 
-<!-- 保留你的样式（确保页面能滚动） -->
 <style>
 
     .banner_led {
-        width: 100%; aspect-ratio: 2.5/1; min-height: 200px;
-        background: #f1f1f1;
-        color: white; display: flex; align-items: center; justify-content: center;
+        width: 100%;
+        aspect-ratio: 5/1;
+        min-height: 200px;
+        background: var(--led-bg-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .banner_led a {
+        color: #ffffff;
+    }
+
+    .title_bar {
+        position: sticky;
+        top: 55px;
+        padding: 10px;
+        background: var(--title-bar);
+        z-index: 10;
     }
 
     .video-list-container {
-        margin: 0 auto; padding: 2rem 1rem;
+        margin: 0 auto;
+        padding: 2rem 1rem;
     }
 
     .video-grid {
-        display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem; margin-bottom: 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
     }
 
     .video-card {
-        display: flex; flex-direction: column;
-        background: white;
-        /*border-radius: 10px;*/
+        display: flex;
+        flex-direction: column;
+        background: var(--card-bg-white);
+        border-radius: 10px;
         overflow: hidden;
         margin-bottom: 1rem;
     }
 
     .thumbnail-wrapper {
-        position: relative; width: 100%; aspect-ratio: 16/9; background: #f8f8f8; overflow: hidden;
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: #f8f8f8;
+        overflow: hidden;
     }
-    .thumbnail { width: 100%; height: 100%; object-fit: cover; }
+
+    .thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     .duration, .views-count {
-        position: absolute; bottom: 8px; background: rgba(0,0,0,0.7);
-        color: white; font-size: 0.75rem; padding: 2px 6px; border-radius: 3px;
+        position: absolute;
+        bottom: 8px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: 3px;
     }
-    .duration { right: 8px; }
-    .views-count { left: 8px; }
 
-    .video-info { padding: 1rem; }
-    .author-info { display: flex; align-items: center; margin-bottom: 0.75rem; }
-    .author-avatar { width: 24px; height: 24px; border-radius: 50%; margin-right: 8px; }
-    .video-title { font-size: 0.95rem; margin-bottom: 0.75rem; }
-    .stats { display: flex; gap: 1rem; font-size: 0.8rem; color: #888; }
+    .duration {
+        right: 8px;
+    }
 
-    .empty-state { text-align: center; padding: 4rem 0; color: #999; }
-    .error-msg { color: #dc3545; }
-    .load-more { text-align: center; padding: 2rem 0; font-size: 16px; }
+    .views-count {
+        left: 8px;
+    }
+
+    .video-info {
+        padding: 1rem;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .author-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+
+    .video-title {
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .stats {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 0;
+        color: #999;
+    }
+
+    .error-msg {
+        color: #dc3545;
+    }
+
+    .load-more {
+        text-align: center;
+        padding: 2rem 0;
+        font-size: 16px;
+    }
 </style>

@@ -67,7 +67,6 @@
 </script>
 
 <div class="wrapper">
-    <!-- ⭐ 这里是唯一改动的地方 -->
     <h4>评论（{totalComments}）</h4>
 </div>
 
@@ -90,7 +89,7 @@
             {/if}
 
             {#each list as item (item.id)}
-                <div class="comment-item" id="{item.id}">
+                <div class="comment-item" id="{item.id.toString()}">
                     <div class="user_info">
                         <div class="avatar_48">
                             <a target="_blank" href="/u/{item.userinfo.id}"><img class="avatar_48"
@@ -119,6 +118,7 @@
 
             {#if loading}
                 <p>加载中...</p>
+                <p>Wait...</p>
             {/if}
         </div>
     </div>
@@ -134,7 +134,7 @@
         margin: 20px;
         padding: 10px;
         border-radius: 10px;
-        border: dashed 2px #4ef1c6;
+        border: dashed 2px color(display-p3 1023 1023 1023 / 1);
     }
     .bucket textarea {
         display: inline-flex;
@@ -155,7 +155,7 @@
         margin: 20px;
         padding: 20px;
         border-radius: 20px;
-        background: #f6f6f6;
+        background: var(--bg-gray);
     }
 
     .user_info {
@@ -171,6 +171,7 @@
 
     .nickname {
         margin-left: 10px;
+        font-weight: bold;
     }
 
     .content {

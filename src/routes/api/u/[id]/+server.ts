@@ -1,9 +1,9 @@
 // routes/api/u/[id]/+server.ts
-import type { RequestHandler } from './$types';
-import { getUserHome } from '$lib/api/user';
-import type { ApiRequestBody } from '$lib/models/api';
-import { get } from 'svelte/store';
-import { loginStore } from '$lib/stores/login';
+import type {RequestHandler} from './$types';
+import {getUserHome} from '$lib/api/user_api.ts';
+import type {ApiRequestBody} from '$lib/models/api';
+import {get} from 'svelte/store';
+import {loginStore} from '$lib/stores/login';
 
 export const GET: RequestHandler = async ({ url, params }) => {
     // 从登录状态获取当前开发用 uid 和 token

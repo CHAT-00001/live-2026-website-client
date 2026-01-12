@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount} from 'svelte';
-    import {fade} from 'svelte/transition';
     import type {Info} from '$lib/models/dynamic';
+    import VIDEO_BANNER from "./components/layout/VIDEO_BANNER.svelte";
 
     let list: Info[] = [];
     let p = 1;
@@ -37,7 +37,7 @@
         loadMore();
 
         const handleScroll = () => {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
                 loadMore();
             }
         };
@@ -46,41 +46,21 @@
         return () => window.removeEventListener('scroll', handleScroll);
     });
 </script>
+<svelte:head>
+    <title>推荐 - [ Video - 10070 ] - 首页 - 网站名称</title>
+</svelte:head>
+
 <div class="line_100"></div>
 <div class="title_bar">
     <h1>Videos</h1>
     <h4>视频</h4>
 </div>
 <div class="line_100"></div>
-<div class="wrapper">
-    <div class="search_bar">
-        <input type="search"/>
-        <input type="submit" value="搜索"/>
-    </div>
-    <div class="title_bar">
-        <div class="title">动态</div>
-        <div class="tab_menu" style="display: flex">
-            <div class="list">
-                <button>推荐</button>
-                <button>关注</button>
-                <button>附近</button>
-                <button>最新</button>
-                <button>记录</button>
-            </div>
-            <div class="list">
-                <button>卡片</button>
-                <button>瀑布流</button>
-                <button>列表</button>
-                <button>照片墙</button>
-                <button>Map</button>
-            </div>
-        </div>
-    </div>
-</div>
+<VIDEO_BANNER/>
 <div class="wrapper">
     <div class="dynamic-list">
         {#each list as item (item.id)}
-            <div class="dynamic-item" id="{item.id}">
+            <div class="dynamic-item" id="{item.id.toString()}">
                 <div class="user_info">
                     <div class="avatar_48"><a target="_blank" href="/u/{item.uid}"><img class="avatar_48"
                                                                                         src="{item.userinfo.avatar}"/>
@@ -88,24 +68,9 @@
                     <div class="nickname"><a target="_blank" href="/u/{item.uid}">{item.userinfo.user_nickname}</a>
                     </div>
                 </div>
-                <h4>{item.title}</h4>
+                <a target="_blank" href="/video/{item.id}"><h4>{item.title}</h4></a>
                 <div class="info">
-                    {#each item.thumbs as thumb}
-                        <div class="photo">
-                            <a target="_blank" href="{thumb}"><img
-                                    class="thumb"
-                                    src={thumb}
-                                    loading="lazy"
-                                    on:load={() => imgLoaded[0] = true}
-                                    in:fade={{ duration: 500 }}
-                            /></a>
-                        </div>
-                    {/each}
-                    {#if item.video_thumb}
-                        <video src={item.href} poster={item.video_thumb} controls width="480">
-                            <track kind="captions" src="" srclang="en" label="English"/>
-                        </video>
-                    {/if}
+                    <a target="_blank" href="/video/{item.id}"><img class="thumb" src="{item.thumb}"/></a>
                 </div>
                 <div class="option">
                     <div class="data">{item.addtime}</div>

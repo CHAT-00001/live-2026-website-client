@@ -93,13 +93,13 @@
 
 <style>
     .tab_bar {
-        display: block;
+        display: none;
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
         height: 55px;
-        background-color: rgba(255, 255, 255, 0.88);
+        background-color: var(--bar-bg);
         z-index: 50;
         backdrop-filter: blur(20px);
     }
@@ -137,7 +137,7 @@
     }
     .menu-item:active {
         color: #ffffff;
-        background: #0070f3;
+        background: #0011ff;
     }
 </style>
 

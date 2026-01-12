@@ -1,7 +1,9 @@
 <script lang="ts">
     import COMMENTS from "../components/molecules/COMMENTS.svelte";
+    import {onMount} from 'svelte';
 
     let videoVolume = 0.2;
+    let videoElement: HTMLVideoElement | null = null;
 
     export let data;
 
@@ -17,22 +19,18 @@
         video = videoData.info?.[0] ?? null;
     }
 
-    // 标题前 20 个汉字
     $: shortTitle = video?.title
         ? video.title.slice(0, 20)
         : '';
 
-    // HTML <title>
     $: pageTitle = video
         ? `${shortTitle} - [${video.id}] - ${siteName}`
         : siteName;
 
-    // meta description（120 字内）
     $: metaDescription = video?.description
         ? video.description.replace(/\s+/g, ' ').slice(0, 120)
         : '';
 
-    // meta keywords（标题 + 描述）
     $: metaKeywords = video
         ? [
             video.title,
@@ -43,9 +41,16 @@
             .replace(/\s+/g, ' ')
             .slice(0, 200)
         : '';
+
+    let videoEl: HTMLVideoElement;
+
+    onMount(() => {
+        if (videoEl) {
+            videoEl.volume = 0.1; // 设置音量为 10%
+        }
+    });
 </script>
 
-<!-- ✅ SEO Head -->
 <svelte:head>
     <title>{pageTitle}</title>
 
@@ -72,7 +77,8 @@
                     controls
                     autoplay
                     loop
-                    bind:volume={videoVolume}
+                    bind:this={videoEl}
+                    preload="metadata"
             ></video>
         </div>
 
@@ -100,7 +106,7 @@
 
                 <div class="author">
                     <a class="avatar" target="_blank" href="/u/{video.uid}">
-                        <img class="avatar_48" src={video.avatar} alt="avatar"/>
+                        <img class="avatar_48" src="{video.avatar}" alt="avatar"/>
                     </a>
                     <a class="nickname" target="_blank" href="/u/{video.uid}">
                         <span>{video.user_nickname}</span>
@@ -140,19 +146,18 @@
         min-height: 480px;
         max-height: 1024px;
         text-align: center;
-        background: #f1f1f1;
+        background: var(--led-bg-color);
     }
 
     .banner_led video {
-        /*width: 100%;*/
         max-width: 1280px;
         min-height: 480px;
         max-height: 640px;
     }
 
     .title {
-        padding: 0 10px;
-        border-bottom: solid 1px #f0f0f0;
+        padding: 10px;
+        border-bottom: solid 1px var(--line-q);
     }
 
     .video_info {
@@ -165,7 +170,7 @@
     .video_info .info {
         padding: 20px;
         border-radius: 20px;
-        background: #f6f6f6;
+        background: var(--bg-gray);
     }
 
     .author {
@@ -186,7 +191,7 @@
         align-items: center;
         justify-content: center;
         min-height: 240px;
-        background: #f1f1f1;
+        background: var(--led-bg-color);
         aspect-ratio: 2.5 / 1;
         text-align: center;
     }

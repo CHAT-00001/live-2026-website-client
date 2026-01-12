@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { fade } from 'svelte/transition';
-    import type { Info } from '$lib/models/dynamic';
+    import {onMount} from 'svelte';
+    import {fade} from 'svelte/transition';
+    import type {Info} from '$lib/models/dynamic';
+    import DYNAMIC_MENU from "../components/layout/DYNAMIC_MENU.svelte";
 
     let list: Info[] = [];
     let p = 1;
@@ -47,41 +48,24 @@
     });
 </script>
 
+<svelte:head>
+    <title>附近 - [GEO - {lat}, {lng}] - 动态 - 网站标题</title>
+</svelte:head>
+
+<DYNAMIC_MENU/>
 <div class="line_100"></div>
-<div class="wrapper">
-    <div class="search_bar">
-        <input type="search" />
-        <input type="submit" value="搜索" />
-    </div>
-    <div class="title_bar">
-        <div class="title">动态</div>
-        <div class="tab_menu" style="display: flex">
-            <div class="list">
-                <button>推荐</button>
-                <button>关注</button>
-                <button>附近</button>
-                <button>最新</button>
-                <button>记录</button>
-            </div>
-            <div class="list">
-                <button>卡片</button>
-                <button>瀑布流</button>
-                <button>列表</button>
-                <button>照片墙</button>
-                <button>Map</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="line_100"></div>
 <div class="wrapper">
     <div class="dynamic-list">
         {#each list as item (item.id)}
-            <div class="dynamic-item" id="{item.id}">
+            <div class="dynamic-item" id="{item.id.toString()}">
                 <div class="user_info">
-                    <div class="avatar_48"><a target="_blank" href="/u/{item.uid}"><img class="avatar_48"
+                    <div class="avatar_48"><a target="_blank" href="/u/{item.uid}?kid=1004ad15de01ff64512e78da"><img
+                            class="avatar_48"
                                                                                         src="{item.userinfo.avatar}"/>
                     </a></div>
-                    <div class="nickname"><a target="_blank" href="/u/{item.uid}">{item.userinfo.user_nickname}</a>
+                    <div class="nickname"><a target="_blank"
+                                             href="/u/{item.uid}?kid=1004ad15de01ff64512e78da">{item.userinfo.user_nickname}</a>
                     </div>
                 </div>
                 <h4>{item.title}</h4>
@@ -90,7 +74,7 @@
                         <div class="photo">
                             <a target="_blank" href="{thumb}"><img
                                     class="thumb"
-                                    src={thumb}
+                                    src={thumb}?imageView2/2/w/400/h/600
                                     loading="lazy"
                                     on:load={() => imgLoaded[0] = true}
                                     in:fade={{ duration: 500 }}
@@ -119,9 +103,6 @@
 </div>
 
 <style>
-    .title_bar {
-        margin: 20px;
-    }
     .thumb {
         opacity: 1;
         transition: opacity 0.5s;
@@ -152,6 +133,7 @@
 
     .nickname {
         margin: 10px;
+        font-weight: bold;
     }
 
     .photo {

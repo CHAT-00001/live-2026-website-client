@@ -1,6 +1,9 @@
+// src/lib/models/user.ts
+// 2026-01-10 05:12:48
 
-
-//// MODEL User
+/**
+ * 用户结构体
+ */
 export interface User {
     id: string;
     email: string;
@@ -16,8 +19,9 @@ export interface User {
 }
 
 
-
-//// 创建用户
+/**
+ * 创建用户
+ */
 export interface CreatUser {
     sn: string;                     // 流水号
     phone: number;                  // 电话号码

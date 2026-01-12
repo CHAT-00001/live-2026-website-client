@@ -1,10 +1,13 @@
 // src/api/video.ts
+// 2026-01-10 04:38:45
 
-import { get_api, ApiResponse } from "$lib/network";
-import type {VideoListResponse} from "$lib/models/video.ts"; // SvelteKit 路径别名
-import type { ApiRequest, ListResponse } from '$lib/models/video.ts';
+import {type ApiResponse, get_api} from "$lib/network";
+import type {ListResponse, VideoListResponse} from "$lib/models/video.ts"; // SvelteKit 路径别名
 import listJson from '$lib/data/video/list.json';
 import type {ApiRequestBody} from "$lib/models/api.ts";
+
+//////// 00000000
+//////// 00000000
 
 /**
  * 获取视频详情
@@ -24,12 +27,15 @@ export async function get_video_by_id(
             uid,     // 用户ID
             token    // 令牌
         },
-        { timeout: 1000 }
+        {timeout: 1000}
     );
 }
 
 
-// 获取视频列表
+/**
+ * VIDEO LIST - 视频列表
+ * @param req
+ */
 export async function getVideoList(req: ApiRequestBody): Promise<ListResponse> {
 
     const controller = new AbortController();
@@ -37,12 +43,16 @@ export async function getVideoList(req: ApiRequestBody): Promise<ListResponse> {
 
     const url = new URL('http://api2.damawei.com:8080/appapi/');
     url.searchParams.set('s', 'video.getVideoList');
-    url.searchParams.set('lat', req.lat);
-    url.searchParams.set('lng', req.lng);
+    if (req.lat != null) {
+        url.searchParams.set('lat', req.lat);
+    }
+    if (req.lng != null) {
+        url.searchParams.set('lng', req.lng);
+    }
     url.searchParams.set('p', (req.p || 1).toString());
 
     try {
-        const res = await fetch(url.toString(), { signal: controller.signal });
+        const res = await fetch(url.toString(), {signal: controller.signal});
         clearTimeout(timeout);
         if (!res.ok) throw new Error('API Error');
         const data = (await res.json()) as ListResponse;
@@ -54,7 +64,10 @@ export async function getVideoList(req: ApiRequestBody): Promise<ListResponse> {
     }
 }
 
-// 获取视频列表
+/**
+ * Home LIST - 主页视频列表
+ * @param req
+ */
 export async function getHomeVideo(req: ApiRequestBody): Promise<ListResponse> {
 
     const controller = new AbortController();
@@ -62,15 +75,24 @@ export async function getHomeVideo(req: ApiRequestBody): Promise<ListResponse> {
 
     const url = new URL('http://api2.damawei.com:8080/appapi/');
     url.searchParams.set('s', 'video.getHomeVideo');
+    // @ts-ignore
     url.searchParams.set('uid', req.uid);
-    url.searchParams.set('token', req.token);
-    url.searchParams.set('touid', req.touid);
-    url.searchParams.set('lat', req.lat);
-    url.searchParams.set('lng', req.lng);
+    if (req.token != null) {
+        url.searchParams.set('token', req.token);
+    }
+    if (req.touid != null) {
+        url.searchParams.set('touid', req.touid);
+    }
+    if (req.lat != null) {
+        url.searchParams.set('lat', req.lat);
+    }
+    if (req.lng != null) {
+        url.searchParams.set('lng', req.lng);
+    }
     url.searchParams.set('p', (req.p || 1).toString());
 
     try {
-        const res = await fetch(url.toString(), { signal: controller.signal });
+        const res = await fetch(url.toString(), {signal: controller.signal});
         clearTimeout(timeout);
         if (!res.ok) throw new Error('API Error');
         const data = (await res.json()) as ListResponse;
@@ -83,8 +105,10 @@ export async function getHomeVideo(req: ApiRequestBody): Promise<ListResponse> {
     }
 }
 
-
-// 获取视频评论列表
+/**
+ * Comments by ID - 根据视频id获取评论
+ * @param req
+ */
 export async function getComments(req: ApiRequestBody): Promise<ListResponse> {
 
     const controller = new AbortController();
@@ -104,7 +128,7 @@ export async function getComments(req: ApiRequestBody): Promise<ListResponse> {
     url.searchParams.set('p', (req.p || 1).toString());
 
     try {
-        const res = await fetch(url.toString(), { signal: controller.signal });
+        const res = await fetch(url.toString(), {signal: controller.signal});
         clearTimeout(timeout);
         if (!res.ok) throw new Error('API Error');
         const data = (await res.json()) as ListResponse;

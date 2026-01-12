@@ -1,10 +1,64 @@
+/**
+ * src/style.global.css -- 2026-01-10 11:31:10
+ */
+
+:root,
+:root[data-theme="light"] {
+    --bg-primary: #f6f6f6; /* 背景主题色 */
+    --text-primary: #000000; /* 你原版 黑色文字色 */
+    --border-color: #e0e0e0; /* 你原版 浅灰边框色 */
+    --bg-gray: #f0f0f0; /* 浅灰背景 */
+    --bg-black: #0f0f0f; /* 你原版 btn_black 黑色背景 */
+    --bg-white: #ffffff; /* 白色文本/反色用 */
+    --btn-hover-border: #0099ff; /* 按钮hover边框蓝 */
+    --btn-hover-bg: #00aaff; /* 按钮hover背景蓝 */
+    --bar-bg: color(display-p3 1 1 1 / 0.8);
+    --border-bottom-color: #e0e0e0;
+    --led-bg-color: #f1f1f1;
+    --card-bg-white: #ffffff; /* 卡片白色背景色 */
+    --line-q: #f0f0f0;
+    --text-333333: #333333;
+    --title-bar: rgba(255, 255, 255, 0.88);
+    --link-visited: color(display-p3 100 410 1023 / 1);
+}
+
+:root[data-theme="dark"] {
+    --bg-primary: #0a0a0a; /* 背景主题色 */
+    --text-primary: #f6f6f6; /* 深色反色 浅白文字 */
+    --border-color: #333333; /* 深色反色 深灰边框 */
+    --bg-gray: #171717; /* 浅灰背景 */
+    --bg-black: #f0f0f0; /* 深色 btn_black 浅灰背景 */
+    --bg-white: #1e1e1e; /* 深色 卡片/模块背景 */
+    --btn-hover-border: #40a9ff; /* 深色按钮hover 亮一点的蓝 */
+    --btn-hover-bg: #00aaff; /* 按钮hover蓝不变，深色下更醒目 */
+    --bar-bg: rgba(0, 0, 0, 0.88);
+    --border-bottom-color: #202020;
+    --led-bg-color: #0f0f0f;
+    --card-bg-white: #0f0f0f; /* 卡片白色背景色 */
+    --line-q: #171717;
+    --text-333333: #cccccc;
+    --title-bar: rgba(0, 0, 0, 0.88);
+    --link-visited: color(display-p3 0 100 1023 / 1);
+}
+
+/* 全局过渡动画：主题切换时，所有颜色渐变200ms */
+* {
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
 html {
     overflow-x: hidden;
 }
+
 body {
     margin: 0;
     padding: 0;
-    /*font-size: 12px;*/
+    background-color: var(--bg-primary);
+    font-size: 16px;
+    color: var(--text-primary);
 }
 
 .wrapper {
@@ -19,16 +73,79 @@ button {
     padding: 10px 20px;
     font-size: 14px;
     font-weight: bold;
-    color: #ffffff;
+    color: var(--bg-white);
     text-align: center;
-    background: #efefef;
-    border: solid 1px #e0e0e0;
+    background: var(--bg-gray);
+    border: solid 1px var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    border: solid 1px var(--btn-hover-border);
+    background-color: var(--btn-hover-bg);
+    color: var(--bg-white);
+}
+
+.btn {
+    width: 100%;
+    height: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--bg-white);
+    text-align: center;
+    background: var(--bg-gray);
+    border: solid 1px var(--border-color);
     border-radius: 4px;
 }
-button:hover {
-    border: solid 1px #0099ff;
-    background-color: #00aaff;
-    color: #fff;
+
+.btn:hover {
+    border: solid 1px var(--btn-hover-border);
+    background-color: var(--btn-hover-bg);
+    color: var(--bg-white);
+}
+
+.btn_line {
+    width: 100%;
+    height: 45px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--bg-white);
+    text-align: center;
+    background: var(--bg-gray);
+    border: solid 1px var(--border-color);
+    border-radius: 4px;
+}
+
+.btn_line:hover {
+    border: solid 1px var(--btn-hover-border);
+    background-color: var(--btn-hover-bg);
+    color: var(--bg-white);
+}
+
+.btn:visited {
+    color: var(--bg-white);
+}
+
+.btn_black {
+    width: auto;
+    height: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--bg-white);
+    text-align: center;
+    background: var(--bg-black);
+    border: solid 1px var(--border-color);
+    border-radius: 4px;
+}
+
+.btn_black:hover {
+    border: solid 1px var(--btn-hover-border);
+    background-color: var(--btn-hover-bg);
+    color: var(--bg-white);
 }
 
 .h1 {
@@ -39,15 +156,24 @@ button:hover {
 li {
     list-style: none;
 }
-a { text-decoration: none; }
-a:visited {
-    color: #00cfff;
-}
-.data-time {
-    color: #00ff66;
+
+a {
+    text-decoration: none;
+    /*color: #00cfff;*/
+    color: var(--text-333333);
 }
 
-.line_100 { height: 100px }
+a:visited {
+    color: var(--link-visited);
+}
+
+.data-time {
+    color: #00ff33;
+}
+
+.line_100 {
+    height: 100px
+}
 
 .avatar_48 {
     width: 48px;

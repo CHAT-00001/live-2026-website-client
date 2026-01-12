@@ -1,5 +1,3 @@
-import type {Info} from "$lib/models/dynamic.ts";
-
 export interface ApiRequest {
     video_id: string;
     lat: string;
@@ -68,6 +66,7 @@ export interface VideoList {
     lat: string;
     lng: string;
     description: string | null;
+    duration: String | null;
     city: string;
     status: number;
     music_id: number;

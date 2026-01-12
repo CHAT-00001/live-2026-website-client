@@ -38,10 +38,11 @@
                         {user?.id} {user?.age || ''}岁 {user?.from || ''} IP: {user?.ip || ''} - GUANGXI - CHINA
                     </h4>
                 </div>
+                <div class="signature">{user?.signature || 'null'}</div>
                 <div class="item">
                     <button>Living...</button>
                     <button>2D Code...</button>
-                    <button>STOTRG</button>
+                    <button>STORE</button>
                     <button>AD</button>
                 </div>
             </div>
@@ -72,7 +73,7 @@
 <style>
     .banner_640 {
         height: 640px;
-        background: #f1f1f1;
+        background: var(--bg-primary);
     }
 
     .user_info {
@@ -92,19 +93,23 @@
         height: 200px;
     }
 
+    .signature {
+        padding: 10px;
+    }
+
     .banner_menu {
         position: sticky;
         top: 55px;
         display: block;
         height: 50px;
-        border-bottom: solid 1px #f1f1f1;
+        border-bottom: solid 1px var(--line-q);
     }
 
     .banner_menu .menu {
         float: left;
         width: 20%;
         height: 40px;
-        color: #333333;
+        color: var(--text-333333);
         font-size: 14px;
         font-weight: bold;
         line-height: 28px;
@@ -114,11 +119,11 @@
 
     .banner_menu .menu:hover {
         float: left;
-        border-bottom: solid 4px rgba(82, 229, 21, 1.0);
+        border-bottom: solid 4px rgba(0, 255, 21, 1.0);
     }
 
     .banner_menu .active {
-        border-bottom: solid 4px rgba(82, 229, 21, 1.0);
+        border-bottom: solid 4px rgba(0, 255, 21, 1.0);
     }
 
     .bottom_bar {

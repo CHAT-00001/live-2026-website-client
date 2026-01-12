@@ -1,12 +1,12 @@
 <!-- 父组件：src/routes/u/[id]/+page.svelte（假设路径） -->
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { fade } from 'svelte/transition';
-    import { page } from '$app/stores';
+    import {onMount} from 'svelte';
+    import {fade} from 'svelte/transition';
+    import {page} from '$app/stores';
     import BANNER from "../components/molecules/BANNER.svelte";
     import VIDEOS from "../components/molecules/VIDEOS.svelte";
-    import type { Info } from '$lib/models/dynamic';
-    import { browser } from '$app/environment'; // 新增：区分SSR/CSR
+    import type {Info} from '$lib/models/dynamic';
+    import {browser} from '$app/environment'; // 新增：区分SSR/CSR
 
     let list: Info[] = [];
     let p = 1;
@@ -106,7 +106,6 @@
 </script>
 
 <svelte:head>
-    <!-- 现在user数据由父组件提供，不再无效 -->
     <title>{user?.user_nickname || '未知用户'} - [{user?.id || '0'}] - 动态 - 网站标题</title>
 </svelte:head>
 

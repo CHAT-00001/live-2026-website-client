@@ -3,6 +3,7 @@
     import {fade} from 'svelte/transition';
     import {getNearbyDynamic} from '$lib/service/dynamic';
     import type {Info} from '$lib/models/dynamic';
+    import DYNAMIC_MENU from "./components/layout/DYNAMIC_MENU.svelte";
 
     let list: Info[] = [];
     let p = 1;
@@ -36,36 +37,18 @@
         return () => window.removeEventListener('scroll', handleScroll);
     });
 </script>
+
+<svelte:head>
+    <title>动态 - [ Dynamic - 10040 ] - 首页 - 网站名称</title>
+</svelte:head>
+
+<DYNAMIC_MENU/>
 <div class="line_100"></div>
-<div class="wrapper">
-    <div class="search_bar">
-        <input type="search" />
-        <input type="submit" value="搜索" />
-    </div>
-    <div class="title_bar">
-        <div class="title">动态</div>
-        <div class="tab_menu" style="display: flex">
-            <div class="list">
-                <button>推荐</button>
-                <button>关注</button>
-                <button>附近</button>
-                <button>最新</button>
-                <button>记录</button>
-            </div>
-            <div class="list">
-                <button>卡片</button>
-                <button>瀑布流</button>
-                <button>列表</button>
-                <button>照片墙</button>
-                <button>Map</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="line_100"></div>
 <div class="wrapper">
     <div class="dynamic-list">
         {#each list as item (item.id)}
-            <div class="dynamic-item" id="{item.id}">
+            <div class="dynamic-item" id="{item.id.toString()}">
                 <div class="user_info">
                     <div class="avatar_48"><a target="_blank" href="/u/{item.uid}"><img class="avatar_48"
                                                                                         src="{item.userinfo.avatar}"/>
@@ -75,11 +58,12 @@
                 </div>
                 <h4>{item.title}</h4>
                 <div class="info">
+                    <!-- 动态类型：0：文字；1：图片；2：视频；3：语音 ；4：商品 5：位置；6：xx -->
                     {#each item.thumbs as thumb}
                         <div class="photo">
                             <a target="_blank" href="{thumb}"><img
                                     class="thumb"
-                                    src={thumb}
+                                    src={thumb}?imageView2/2/w/400/h/600
                                     loading="lazy"
                                     on:load={() => imgLoaded[0] = true}
                                     in:fade={{ duration: 500 }}
@@ -103,14 +87,12 @@
         {/each}
         {#if loading}
             <p>加载中...</p>
+            <h4>Wait ...</h4>
         {/if}
     </div>
 </div>
 
 <style>
-    .title_bar {
-        margin: 20px;
-    }
     .thumb {
         opacity: 1;
         transition: opacity 0.5s;
@@ -126,7 +108,7 @@
         margin: 20px;
         padding: 20px;
         border-radius: 20px;
-        background: #f1f1f1;
+        background: var(--bg-gray);
     }
 
     .user_info {
@@ -141,6 +123,7 @@
 
     .nickname {
         margin: 10px;
+        font-weight: bold;
     }
 
     .photo {

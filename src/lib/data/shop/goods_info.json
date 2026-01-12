@@ -1,0 +1,113 @@
+{
+    "ret": 200,
+    "data": {
+        "code": 0,
+        "msg": "\u83b7\u53d6\u6210\u529f",
+        "info": [
+            {
+                "goods_info": {
+                    "id": 1000000140,
+                    "market_id": 0,
+                    "uid": 1000008801,
+                    "name": "\u963f\u8fea\u8fbe\u65afAdidas NEO\u5973\u5b50\u4f11\u95f2\u62fc\u63a5\u900f\u6c14\u8fde\u5e3d\u8fd0\u52a8\u4f11\u95f2\u5939\u514b\u5916\u5957",
+                    "name_en": "Adidas NEO women Coat",
+                    "no": "IA6723",
+                    "one_classid": 182,
+                    "two_classid": 183,
+                    "three_classid": 184,
+                    "video_url": "",
+                    "video_thumb": "",
+                    "video_length": null,
+                    "thumbs": "0140s-2.jpg,0140s.jpg,0140s-1.jpg",
+                    "content": "\u6d45\u84dd\u8272\uff0c\u590f\u5929",
+                    "pictures": "",
+                    "specs": "[{\"spec_id\":1,\"spec_name\":\"S\",\"spec_num\":\"10000\",\"price\":249,\"thumb\":\"0115s-2.jpg\"},{\"spec_id\":2,\"spec_name\":\"M\",\"spec_num\":\"10000\",\"price\":249,\"thumb\":\"0140s.jpg\"}]",
+                    "postage": "0.0",
+                    "hits": 44,
+                    "status": "1",
+                    "isrecom": 0,
+                    "sale_nums": 3698,
+                    "refuse_reason": "",
+                    "issale": 1,
+                    "type": "3",
+                    "original_price": "99.00",
+                    "present_price": "249.00",
+                    "goods_desc": "",
+                    "href": "https:\/\/item.taobao.com\/item.htm?id=781528390158",
+                    "live_isshow": 1,
+                    "low_price": "249.00",
+                    "admin_id": 0,
+                    "commission": "0.00",
+                    "share_income": "0.0",
+                    "lat": "26.016651",
+                    "lng": "108.65611",
+                    "city": null,
+                    "address": null,
+                    "label_id": null,
+                    "collects": 0,
+                    "shares": 0,
+                    "three_classinfo": {
+                        "gc_id": 184,
+                        "gc_name": "\u536b\u8863",
+                        "gc_name_en": "Hoodie",
+                        "gc_icon": ""
+                    },
+                    "one_class_name": "\u670d\u88c5\/\u7537\u88c5\/\u5973\u88c5",
+                    "two_class_name": "\u5973\u88c5",
+                    "three_class_name": "\u536b\u8863",
+                    "video_url_format": "",
+                    "video_thumb_format": "",
+                    "thumbs_format": [
+                        "http:\/\/cdn1.damawei.com\/0140s-2.jpg",
+                        "http:\/\/cdn1.damawei.com\/0140s.jpg",
+                        "http:\/\/cdn1.damawei.com\/0140s-1.jpg"
+                    ],
+                    "specs_format": [
+                        {
+                            "spec_id": 1,
+                            "spec_name": "S",
+                            "spec_num": "10000",
+                            "price": "249",
+                            "thumb": "http:\/\/cdn1.damawei.com\/0115s-2.jpg"
+                        },
+                        {
+                            "spec_id": 2,
+                            "spec_name": "M",
+                            "spec_num": "10000",
+                            "price": "249",
+                            "thumb": "http:\/\/cdn1.damawei.com\/0140s.jpg"
+                        }
+                    ],
+                    "pictures_format": [],
+                    "iscollect": "0",
+                    "is_sale_platform": "0",
+                    "comment_nums": 0
+                },
+                "shop_info": {
+                    "uid": "1000008801",
+                    "sale_nums": "0",
+                    "quality_points": "5",
+                    "service_points": "4.8",
+                    "express_points": "4.9",
+                    "certificate": "",
+                    "other": "",
+                    "service_phone": "",
+                    "province": "\u5e7f\u897f\u533a",
+                    "city": "\u767e\u8272\u5e02",
+                    "area": "\u5e73\u679c\u53bf",
+                    "status": "1",
+                    "user_nickname": "\u53ef\u4e50",
+                    "name": "\u53ef\u4e50\u7684\u5c0f\u5e97",
+                    "avatar": "http:\/\/cdn1.damawei.com\/android_10008801_20230911_012215_3209388.jpg",
+                    "composite_points": "4.9",
+                    "goods_nums": "7",
+                    "address_format": "\u767e\u8272\u5e02\u5e73\u679c\u53bf",
+                    "certificate_desc": "\u4ee5\u4e0b\u8425\u4e1a\u6267\u7167\u4fe1\u606f\u6765\u6e90\u4e8e\u4e70\u5bb6\u81ea\u884c\u7533\u62a5\u6216\u5de5\u5546\u7cfb\u7edf\u6570\u636e\uff0c\u5177\u4f53\u4ee5\u5de5\u5546\u90e8\u95e8\u767b\u8bb0\u4e3a\u51c6\uff0c\u7ecf\u8425\u8005\u9700\u8981\u786e\u4fdd\u4fe1\u606f\u771f\u5b9e\u6709\u6548\uff0c\u5e73\u53f0\u4e5f\u5c06\u5b9a\u671f\u6838\u67e5\u3002\u5982\u4e0e\u5b9e\u9645\u4e0d\u7b26\uff0c\u4e3a\u907f\u514d\u8fdd\u89c4\uff0c\u8bf7\u8054\u7cfb\u5f53\u5730\u5de5\u5546\u90e8\u95e8\u6216\u5e73\u53f0\u5ba2\u670d\u66f4\u65b0\u3002",
+                    "isattention": "0"
+                },
+                "comment_lists": []
+            }
+        ]
+    },
+    "msg": ""
+}

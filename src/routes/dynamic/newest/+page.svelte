@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { fade } from 'svelte/transition';
-    import type { Info } from '$lib/models/dynamic';
+    import {onMount} from 'svelte';
+    import type {Info} from '$lib/models/dynamic';
+    import DYNAMIC_MENU from "../components/layout/DYNAMIC_MENU.svelte";
+    import DYNAMIC_ITEM from "../components/DYNAMIC_ITEM.svelte";
 
     let list: Info[] = [];
     let p = 1;
@@ -24,8 +25,14 @@
             if (!res.ok) throw new Error('API Error');
             const data = await res.json();
 
-            list = [...list, ...data.data.info];
+            const newItems = data.data.info;
+            list = [...list, ...newItems];
+            imgLoaded = [...imgLoaded, ...newItems.map(() => false)];
             p += 1;
+
+            if (document.body.scrollHeight <= window.innerHeight) {
+                loadMore();
+            }
         } catch (err) {
             console.error(err);
         } finally {
@@ -47,115 +54,18 @@
     });
 </script>
 
+<svelte:head>
+    <title>最新 - [GEO - 20.541254, 108.614411] - 动态 - 网站标题</title>
+</svelte:head>
+
+<DYNAMIC_MENU/>
+<div class="line_100"></div>
 <div class="line_100"></div>
 <div class="wrapper">
-    <div class="search_bar">
-        <input type="search" />
-        <input type="submit" value="搜索" />
-    </div>
-    <div class="title_bar">
-        <div class="title">动态</div>
-        <div class="tab_menu" style="display: flex">
-            <div class="list">
-                <button>推荐</button>
-                <button>关注</button>
-                <button>附近</button>
-                <button>最新</button>
-                <button>记录</button>
-            </div>
-            <div class="list">
-                <button>卡片</button>
-                <button>瀑布流</button>
-                <button>列表</button>
-                <button>照片墙</button>
-                <button>Map</button>
-            </div>
-        </div>
-    </div>
+    {#each list as item (item.id)}
+        <DYNAMIC_ITEM {item} imgLoaded={imgLoaded}/>
+    {/each}
+    {#if loading}
+        <p>加载中...</p>
+    {/if}
 </div>
-<div class="wrapper">
-    <div class="dynamic-list">
-        {#each list as item (item.id)}
-            <div class="dynamic-item" id="{item.id}">
-                <div class="user_info">
-                    <div class="avatar_48"><a target="_blank" href="/u/{item.uid}"><img class="avatar_48"
-                                                                                        src="{item.userinfo.avatar}"/>
-                    </a></div>
-                    <div class="nickname"><a target="_blank" href="/u/{item.uid}">{item.userinfo.user_nickname}</a>
-                    </div>
-                </div>
-                <h4>{item.title}</h4>
-                <div class="info">
-                    {#each item.thumbs as thumb}
-                        <div class="photo">
-                            <a target="_blank" href="{thumb}"><img
-                                    class="thumb"
-                                    src={thumb}
-                                    loading="lazy"
-                                    on:load={() => imgLoaded[0] = true}
-                                    in:fade={{ duration: 500 }}
-                            /></a>
-                        </div>
-                    {/each}
-                    {#if item.video_thumb}
-                        <video src={item.href} poster={item.video_thumb} controls width="480">
-                            <track kind="captions" src="" srclang="en" label="English"/>
-                        </video>
-                    {/if}
-                </div>
-                <div class="option">
-                    <div class="data">{item.addtime}</div>
-                    <div class="distance">City：{item.city} Address：{item.address}  距离: {item.distance}</div>
-                    <div class="menu">
-                        点赞: {item.likes} 评论: {item.comments}
-                    </div>
-                </div>
-            </div>
-        {/each}
-        {#if loading}
-            <p>加载中...</p>
-        {/if}
-    </div>
-</div>
-
-<style>
-    .title_bar {
-        margin: 20px;
-    }
-    .thumb {
-        opacity: 1;
-        transition: opacity 0.5s;
-        width: 200px;
-    }
-
-    .thumb.fade-in {
-        opacity: 1;
-    }
-
-    .dynamic-item {
-        display: block;
-        margin: 20px;
-        padding: 20px;
-        border-radius: 20px;
-        background: #f1f1f1;
-    }
-
-    .user_info {
-        display: flex;
-    }
-
-    .avatar_48 {
-        width: 48px;
-        height: 48px;
-        border-radius: 10%;
-    }
-
-    .nickname {
-        margin: 10px;
-    }
-
-    .photo {
-        display: inline-block;
-        margin: 10px;
-    }
-</style>

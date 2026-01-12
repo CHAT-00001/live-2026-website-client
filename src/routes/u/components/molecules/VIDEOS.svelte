@@ -1,7 +1,7 @@
 <!-- src/routes/u/[id]/components/molecules/VIDEOS.svelte -->
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import type { Info } from '$lib/models/dynamic';
+    import {onMount} from 'svelte';
+    import type {Info} from '$lib/models/dynamic';
 
     // 接收父组件传递的目标用户ID
     export let touid: string;
@@ -39,7 +39,7 @@
         loading = true;
 
         try {
-            const params = new URLSearchParams({ touid, lat, lng, p: p.toString() });
+            const params = new URLSearchParams({touid, lat, lng, p: p.toString()});
             const res = await fetch(`/api/video/home?${params.toString()}`);
             if (!res.ok) throw new Error('API Error');
             const data = await res.json();
@@ -99,15 +99,18 @@
     {:else if list.length > 0}
         <div class="video-grid">
             {#each list as item (item.id)}
-                <a href={`/video/${item.id}?display=1&room_id=${item.id}_5100048914&r_mm=00000111114444466666`} target="_blank" class="video-card">
+                <a href={`/video/${item.id}?display=1&room_id=${item.id}_5100048914&r_mm=00000111114444466666`}
+                   target="_blank" class="video-card">
                     <div class="thumbnail-wrapper">
-                        <img src={item.thumb} alt={item.title || '视频封面'} class="thumbnail" loading="lazy" on:error={handleImgError} />
+                        <img src={item.thumb} alt={item.title || '视频封面'} class="thumbnail" loading="lazy"
+                             on:error={handleImgError}/>
                         <span class="duration">{item.duration || '00:00' }</span>
                         <span class="views-count">{formatNumber(item.views)}</span>
                     </div>
                     <div class="video-info">
                         <div class="author-info">
-                            <img src={item.avatar || '/default-avatar.png'} alt={`${item.user_nickname || '未知作者'}的头像`} class="author-avatar" on:error={handleImgError} />
+                            <img src={item.avatar || '/default-avatar.png'} alt={`${item.user_nickname || '未知作者'}的头像`}
+                                 class="author-avatar" on:error={handleImgError}/>
                             <span class="author-name">{item.user_nickname || '未知作者'}</span>
                         </div>
                         <h3 class="video-title">{item.title || '无标题'}</h3>
@@ -134,22 +137,31 @@
 
 <style>
     .banner_led {
-        width: 100%; aspect-ratio: 2.5/1; min-height: 200px;
+        width: 100%;
+        aspect-ratio: 2.5/1;
+        min-height: 200px;
         background: #f1f1f1;
-        color: white; display: flex; align-items: center; justify-content: center;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .video-list-container {
-        margin: 0 auto; padding: 2rem 1rem;
+        margin: 0 auto;
+        padding: 2rem 1rem;
     }
 
     .video-grid {
-        display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem; margin-bottom: 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
     }
 
     .video-card {
-        display: flex; flex-direction: column;
+        display: flex;
+        flex-direction: column;
         background: white;
         /*border-radius: 10px;*/
         overflow: hidden;
@@ -157,23 +169,88 @@
     }
 
     .thumbnail-wrapper {
-        position: relative; width: 100%; aspect-ratio: 16/9; background: #f8f8f8; overflow: hidden;
+        position: relative;
+        width: 100%;
+        aspect-ratio: 3/4;
+        background: #f8f8f8;
+        overflow: hidden;
     }
-    .thumbnail { width: 100%; height: 100%; object-fit: cover; }
+
+    .thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     .duration, .views-count {
-        position: absolute; bottom: 8px; background: rgba(0,0,0,0.7);
-        color: white; font-size: 0.75rem; padding: 2px 6px; border-radius: 3px;
+        position: absolute;
+        bottom: 8px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: 3px;
     }
-    .duration { right: 8px; }
-    .views-count { left: 8px; }
 
-    .video-info { padding: 1rem; }
-    .author-info { display: flex; align-items: center; margin-bottom: 0.75rem; font-size: 0.8em; font-weight: bold }
-    .author-avatar { width: 24px; height: 24px; border-radius: 50%; margin-right: 8px; }
-    .video-title { color: #000; font-size: 0.812498rem; font-style: normal; margin-bottom: 0.75rem; }
-    .stats { display: flex; gap: 1rem; font-size: 0.8rem; color: #888; }
+    .duration {
+        right: 8px;
+    }
 
-    .empty-state { text-align: center; padding: 4rem 0; color: #999; }
-    .error-msg { color: #dc3545; }
-    .load-more { text-align: center; padding: 2rem 0; font-size: 16px; }
+    .views-count {
+        left: 8px;
+    }
+
+    .video-info {
+        padding: 1rem;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        font-size: 0.8em;
+        font-weight: bold
+    }
+
+    .author-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+
+    .video-title {
+        color: #000;
+        font-size: 0.812498rem;
+        font-style: normal;
+        margin-bottom: 0.75rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .stats {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 0;
+        color: #999;
+    }
+
+    .error-msg {
+        color: #dc3545;
+    }
+
+    .load-more {
+        text-align: center;
+        padding: 2rem 0;
+        font-size: 16px;
+    }
 </style>

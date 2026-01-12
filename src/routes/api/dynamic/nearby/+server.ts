@@ -1,9 +1,10 @@
 // routes/api/dynamic/nearby/+server.ts
 
-import { getNearbyDynamic } from '$lib/api/dynamic';
-import type { ApiRequest } from '$lib/models/dynamic';
-import type { RequestHandler } from './$types';
+import {getNearbyDynamic} from '$lib/api/dynamic';
+import type {ApiRequest} from '$lib/models/dynamic';
+import type {RequestHandler} from './$types';
 
+// @ts-ignore
 export const GET: RequestHandler = async ({ url }) => {
     const params: ApiRequest = {
         lat: url.searchParams.get('lat') || '',
