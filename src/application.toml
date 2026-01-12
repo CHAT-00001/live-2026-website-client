@@ -14,34 +14,34 @@ version = "0.1.0"
 
 
 ## 管理端接口
-[manger_center]
+[manager_center]
 host = "https://api2.xx.com:8080/appapi/"
-singeut = "a0026e6a605015688a6df96fead"
-app_id = "10008800"
+sign_key = "821a0026e6a605015688a6df96fead"
+app_id = "100008080"
 app_key = "123456"
 
 
 ## 兜底 - 聊天服务器
 [base_im]
-host = "https://im.xx.com:8080/ws/"
-singeut = "a0026e6a605015688a6df96fead"
-app_id = "10008800"
+host = "https://im.xx.com:50001/ws/"
+sign_key = "0684a0026e6a605015688a6df96fead"
+app_id = "10050001"
 app_key = "123456"
 
 
 ## 兜底 - Api服务器
 [base_api]
-host = "https://api4.xx.com:8080/v1/"
-singeut = "a0026e6a605015688a6df96fead"
-app_id = "10008800"
+host = "https://api4.xx.com:18080/v1/"
+sign_key = "8411a0026e6a605015688a6df96fead"
+app_id = "10018080"
 app_key = "123456"
 
 
 ## 兜底服务器接口
 [base_payment]
-host = "https://payment.xx.com:8080/appapi/"
-singeut = "a0026e6a605015688a6df96fead"
-app_id = "10008800"
+host = "https://payment.xx.com:16800/v1"
+sign_key = "5011a0026e6a605015688a6df96fead"
+app_id = "10016800"
 app_key = "123456"
 
 
