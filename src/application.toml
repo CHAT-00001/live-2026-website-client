@@ -15,7 +15,7 @@ version = "0.1.0"
 
 ## 管理端接口
 [manger_center]
-host = "https://api2.danawei.com:8080/appapi/"
+host = "https://api2.xx.com:8080/appapi/"
 singeut = "a0026e6a605015688a6df96fead"
 app_id = "10008800"
 app_key = "123456"
@@ -23,7 +23,7 @@ app_key = "123456"
 
 ## 兜底 - 聊天服务器
 [base_im]
-host = "https://im.danawei.com:8080/ws/"
+host = "https://im.xx.com:8080/ws/"
 singeut = "a0026e6a605015688a6df96fead"
 app_id = "10008800"
 app_key = "123456"
@@ -31,15 +31,15 @@ app_key = "123456"
 
 ## 兜底 - Api服务器
 [base_api]
-host = "https://api4.danawei.com:8080/v1/"
+host = "https://api4.xx.com:8080/v1/"
 singeut = "a0026e6a605015688a6df96fead"
 app_id = "10008800"
 app_key = "123456"
 
 
 ## 兜底服务器接口
-[base_paytenm]
-host = "https://api2.danawei.com:8080/appapi/"
+[base_payment]
+host = "https://payment.xx.com:8080/appapi/"
 singeut = "a0026e6a605015688a6df96fead"
 app_id = "10008800"
 app_key = "123456"
