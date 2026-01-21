@@ -1,4 +1,4 @@
-// src/data/contacts.js
+// src/lib/data/contacts.js
 export const contacts = [
     {
         id: 1,

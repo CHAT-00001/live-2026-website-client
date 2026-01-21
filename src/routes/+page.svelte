@@ -202,6 +202,7 @@
     .title_bar {
         position: sticky;
         top: 55px;
+        margin: 20px 0;
         padding: 10px;
         background: var(--title-bar);
         z-index: 10;
@@ -232,7 +233,6 @@
         position: relative;
         width: 100%;
         aspect-ratio: 16/9;
-        background: #f8f8f8;
         overflow: hidden;
     }
 

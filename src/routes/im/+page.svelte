@@ -199,7 +199,7 @@
                 <div class="chat-header">
                     <img src={selectedChat.avatar} alt={selectedChat.name} class="avatar"
                          on:click={() => showSettingsModal = true}/>
-                    <h2>{selectedChat.name}</h2>
+                    <h4>{selectedChat.name}</h4>
                 </div>
                 <div class="chat-messages" bind:this={messageContainer} on:scroll={onScroll}>
                     {#each $messages as message}
@@ -249,6 +249,7 @@
         --mac-text: #333;
         --mac-primary: #007aff;
         --mac-secondary: #8e8e93;
+        --mac-gray_border: rgba(138, 138, 138, 0.18); /* 浅灰色边框 */
     }
 
     .im {
@@ -269,7 +270,7 @@
 
     .sidebar {
         width: 300px;
-        border-right: 1px solid var(--mac-secondary);
+        border-right: 1px solid var(--mac-gray_border);
         overflow-y: auto;
     }
 

@@ -4,40 +4,40 @@
     import FULL_SCREEN_PLAYER from "../components/layout/FULL_SCREEN_PLAYER.svelte";
     import {getVideoList} from '$lib/api/video_api.ts';
 
-    export let data;
+    // 1. 使用 $props 接收服务器 data
+    let {data} = $props();
 
-    // 初始化：从服务器传来的 data.videos 赋值
-    let videos = [...data.videos];
-    let currentPage = data.pagination.current_page || 1;
-    let isEnd = !data.pagination.has_more;
-    let isLoading = false;
+    // 2. 使用 $state 定义响应式状态（Svelte 5 的灵魂）
+    let videos = $state([...data.videos]);
+    let currentPage = $state(data.pagination.current_page || 1);
+    let isEnd = $state(!data.pagination.has_more);
+    let isLoading = $state(false);
 
+    // 加载更多函数
     async function handleLoadMore() {
         if (isEnd || isLoading) return;
 
-        isLoading = true; // 父组件也加个锁，双重保险
+        isLoading = true;
         try {
             const nextP = currentPage + 1;
-
-            // 构造符合你 API 要求的参数
             const params = {
-                lat: '', // 如果需要经纬度，可以从 URL 或 state 获取
+                lat: '',
                 lng: '',
                 p: nextP
             };
 
-            // 直接使用你封装好的 getVideoList
             const result = await getVideoList(params);
 
-            // 根据你提供的映射：数据在 result.data.info
             if (result.ret === 200 && result.data?.info?.length > 0) {
-                // 核心：解构赋值追加数据
+                // 3. 在 Svelte 5 中，直接修改 $state 数组即可触发子组件更新
                 videos = [...videos, ...result.data.info];
                 currentPage = nextP;
-                console.log(`API 映射成功：第 ${nextP} 页(p=${nextP})已载入，当前共 ${videos.length} 条`);
+
+                // 使用你的专属“黑客绿”日志
+                console.info(`\x1b[38;2;65;255;0m[Parent]\x1b[0m 成功追加数据，当前共 ${videos.length} 条`);
             } else {
                 isEnd = true;
-                console.log("没有更多视频了");
+                console.info("\x1b[33m[Parent]\x1b[0m 没有更多视频了");
             }
         } catch (error) {
             console.error("加载更多视频失败:", error);
@@ -52,6 +52,6 @@
 </svelte:head>
 
 <FULL_SCREEN_PLAYER
-        on:loadMore={handleLoadMore}
+        onLoadMore={handleLoadMore}
         videoList={videos}
 />
