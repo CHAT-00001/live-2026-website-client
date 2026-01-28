@@ -13,6 +13,9 @@
     });
 
 </script>
+<svelte:head>
+    <title>哈基米 - 实况直播 - [ GEO - 10048 ] - room - </title>
+</svelte:head>
 
 <div class="room">
     <div class="line_60"></div>

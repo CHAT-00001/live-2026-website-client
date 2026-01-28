@@ -1,8 +1,9 @@
-<!-- src/routes/video/home/+page.svelte -->
+<!-- src/routes/home/+page.svelte -->
 
 <script lang="ts">
-    import FULL_SCREEN_PLAYER from "../components/layout/FULL_SCREEN_PLAYER.svelte";
-    import {getVideoList} from '$lib/api/video_api.ts';
+
+    import {getVideoList} from '$lib/api/video';
+    import FULL_SCREEN_PLAYER from "./components/layout/FULL_SCREEN_PLAYER.svelte";
 
     // 1. 使用 $props 接收服务器 data
     let {data} = $props();

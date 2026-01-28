@@ -1,4 +1,4 @@
-<!-- src/routes/dynamic/components/DYNAMIC_MENU.svelte -->
+<!-- src/routes/live/components/LV_BANNER_500.svelte -->
 <script>
     import {page} from '$app/stores';
 
@@ -20,18 +20,18 @@
 
         <!-- 标题 + Tabs -->
         <div class="title_bar">
-            <div class="title"><h4>产品</h4></div>
+            <div class="title"><h4>实况</h4></div>
 
             <div class="tab_menu">
                 <!-- Tabs -->
                 <div class="tab">
-                    <a class="tab_item" class:active={isActiveRoute('/video')} href="/dynamic">推荐</a>
-                    <a class="tab_item" class:active={isActiveRoute('/video/newest')} href="/video/newest">最新</a>
-                    <a class="tab_item" class:active={isActiveRoute('/video/follow')} href="/video/follow">关注</a>
-                    <a class="tab_item" class:active={isActiveRoute('/video/nearby')} href="/video/nearby">附近</a>
-                    <a class="tab_item" class:active={isActiveRoute('/video/views')} href="/video/views">记录</a>
-                    <a class="tab_item" class:active={isActiveRoute('/video/likes')} href="/video/likes">点赞</a>
-                    <a class="tab_item" class:active={isActiveRoute('/video/collects')} href="/video/collects">收藏</a>
+                    <a class="tab_item" class:active={isActiveRoute('/live')} href="/live">推荐</a>
+                    <a class="tab_item" class:active={isActiveRoute('/live/newest')} href="/live/newest">最新</a>
+                    <a class="tab_item" class:active={isActiveRoute('/live/follow')} href="/live/follow">关注</a>
+                    <a class="tab_item" class:active={isActiveRoute('/live/nearby')} href="/live/nearby">附近</a>
+                    <a class="tab_item" class:active={isActiveRoute('/live/views')} href="/live/views">记录</a>
+                    <a class="tab_item" class:active={isActiveRoute('/live/likes')} href="/live/likes">点赞</a>
+                    <a class="tab_item" class:active={isActiveRoute('/live/collects')} href="/live/collects">收藏</a>
                 </div>
 
                 <!-- 显示方式（气泡单选） -->

@@ -50,6 +50,8 @@
 }
 
 html {
+    /*  Display P3 广色域 */
+    color-gamut: p3;
     overflow-x: hidden;
 }
 

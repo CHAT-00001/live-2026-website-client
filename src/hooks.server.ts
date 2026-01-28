@@ -1,5 +1,5 @@
 // src/hooks.server.ts
-import type {Handle} from '@sveltejs/kit';
+import type {Handle, HandleServerError} from '@sveltejs/kit';
 import type {LoginState} from '$lib/stores/login';
 
 declare module '@sveltejs/kit' {
@@ -8,6 +8,20 @@ declare module '@sveltejs/kit' {
         requestId: string; // ⚡ 增量：存储当前请求的唯一ID
     }
 }
+
+
+export const handleError: HandleServerError = ({error, event}) => {
+    // 这里可以将错误发送到 Sentry 或直接打印
+    console.error('--- Server Error ---');
+    console.error(error);
+    console.error('Event:', event);
+
+    // 你可以自定义返回给用户的信息
+    return {
+        message: '服务器开小差了，请稍后再试',
+        code: 'INTERNAL_ERROR'
+    };
+};
 
 export const handle: Handle = async ({ event, resolve }) => {
     // 1. 生成本次请求的唯一 ID (无分割符 UUID)

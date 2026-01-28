@@ -180,16 +180,16 @@
                         <div class="video_player">
                             {#if Math.abs(activeIndex - i) <= 1}
                                 <video on:click={() => togglePlay(i)}
-                                        bind:this={videoEls[i]}
-                                        src="{item.video_url}"
-                                        loop
-                                        autoplay={activeIndex === i}
-                                        muted={activeIndex === i ? false : true}
-                                        playsinline
+                                       bind:this={videoEls[i]}
+                                       src="{item.video_url}"
+                                       loop
+                                       autoplay={activeIndex === i}
+                                       muted={activeIndex === i ? false : true}
+                                       playsinline
                                        controls
-                                        on:play={onPlay}
-                                        on:pause={onPause}
-                                        on:ended={onPause}
+                                       on:play={onPlay}
+                                       on:pause={onPause}
+                                       on:ended={onPause}
                                 />
                             {/if}
                         </div>

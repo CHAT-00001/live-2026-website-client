@@ -83,6 +83,7 @@
         {/each}
         {#if loading}
             <p>加载中...</p>
+            <p>Waiting...</p>
         {/if}
     </div>
 </div>

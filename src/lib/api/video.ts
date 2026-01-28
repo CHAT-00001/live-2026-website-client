@@ -56,7 +56,7 @@ export async function getVideoList(req: ApiRequestBody): Promise<ListResponse> {
         clearTimeout(timeout);
         if (!res.ok) throw new Error('API Error');
         const data = (await res.json()) as ListResponse;
-        console.info("api/video: 获取视频列表好啦~！", data)
+        console.info("api/video: 获取视频列表好啦~！")
         return data;
     } catch (e) {
         console.warn('请求超时或失败，使用本地数据', e);

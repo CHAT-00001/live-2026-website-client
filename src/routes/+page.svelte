@@ -1,4 +1,6 @@
 <!-- src/routes/+page.svelte -->
+
+
 <script lang="ts">
     import type {PageData} from './$types';
     import {onMount} from 'svelte';
@@ -12,20 +14,18 @@
         };
 
     export let data: PageData;
-    // 响应式数据（必须用let，不能用const）
+
     let videos = data.videos || [];
     let currentPage = data.currentPage || 1;
     let hasMore = data.hasMore || false;
     let loading = false;
     const pageSize = 10;
 
-    // 格式化数字
     const formatNumber = (num: number | string) => {
         if (typeof num === 'string') return num;
         return num >= 10000 ? (num / 10000).toFixed(1) + '万' : num.toString();
     };
 
-    // 图片错误处理
     const handleImgError = (e: Event) => {
         const img = e.target as HTMLImageElement;
         img.src = img.alt.includes('avatar')
@@ -33,82 +33,46 @@
             : 'https://picsum.photos/seed/default/640/360';
     };
 
-    // 核心加载函数（带全量日志）
+    // 最简 loadMore：只要有下一页就加载
     const loadMore = async () => {
-        // 1. 打印当前状态（关键调试）
-        console.log(`【加载触发】loading=${loading}，hasMore=${hasMore}，当前页码=${currentPage}`);
-
-        // 2. 拦截条件
-        if (loading || !hasMore) {
-            console.log(`【加载拦截】loading=${loading} 或 hasMore=${hasMore}`);
-            return;
-        }
-
-        // 3. 标记加载中
+        if (loading || !hasMore) return;
         loading = true;
         const nextPage = currentPage + 1;
-        console.log(`【开始加载】下一页=${nextPage}`);
 
         try {
-            // 4. 直接请求API（跳过路由，避免参数解析问题）
-            const res = await fetch(`http://api2.damawei.com:8080/appapi?s=video.getVideoList&uid=1000008801&p=${nextPage}&pageSize=${pageSize}`, {
-                credentials: 'include'
-            });
-            console.log(`【请求响应】状态码=${res.status}`);
-
+            const res = await fetch(`/api/videos?p=${nextPage}`);
             if (!res.ok) throw new Error(`HTTP错误：${res.status}`);
             const result = await res.json();
-            console.log(`【下一页数据】`, result);
 
-            // 5. 处理数据
-            if (result.data?.code === 0) {
-                const newVideos = result.data.info || [];
-                console.log(`【新增数据】${newVideos.length}条`);
-
-                // 合并数据（核心：必须用=赋值，保持响应式）
-                videos = [...videos, ...newVideos];
-                currentPage = nextPage;
-                hasMore = newVideos.length === pageSize; // 更新是否有更多
-
-                console.log(`【加载完成】总数据=${videos.length}，hasMore=${hasMore}`);
-            } else {
-                console.error(`【业务失败】${result.data?.msg}`);
-                hasMore = false; // 加载失败则停止
-            }
+            const newVideos = result.videos || [];
+            videos = [...videos, ...newVideos];
+            currentPage = nextPage;
+            hasMore = result.hasMore;
         } catch (err) {
-            console.error(`【加载异常】`, err);
+            console.error('加载异常', err);
         } finally {
-            loading = false; // 解除加载锁
-            console.log(`【加载结束】loading=${loading}`);
+            loading = false;
         }
     };
 
-    // 滚动监听（强制触发：只要滚动就打印日志）
     onMount(() => {
         const handleScroll = () => {
-            // 计算滚动位置（兼容所有浏览器）
             const scrollTop = window.scrollY || document.documentElement.scrollTop;
             const windowHeight = window.innerHeight || document.documentElement.clientHeight;
             const docHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
             const scrollBottom = docHeight - (scrollTop + windowHeight);
 
-            // 强制打印滚动日志
-            console.log(`【滚动状态】距离底部=${scrollBottom}px，hasMore=${hasMore}，loading=${loading}`);
-
-            // 触发条件：距离底部<300px + 有更多数据 + 未加载中
+            // 只要快到底就触发 loadMore
             if (scrollBottom < 300 && hasMore && !loading) {
-                console.log(`【满足条件】执行loadMore()`);
-                loadMore(); // 直接执行加载
+                loadMore();
             }
         };
 
-        // 绑定滚动事件（用捕获模式，确保不被拦截）
         window.addEventListener('scroll', handleScroll, {capture: true, passive: true});
-
-        // 组件销毁时移除
         return () => window.removeEventListener('scroll', handleScroll, {capture: true});
     });
 </script>
+
 
 <svelte:head>
     <title>HOME - [ GEO - 10048 ] - 首页 - {site_info.name}</title>
@@ -116,7 +80,7 @@
 
 <!-- led 2026-12-23 21:06:10 -->
 <div class="banner_led">
-    <a class="" href="/video/home"><h1> VIDEO BANNER - 2026 </h1></a>
+    <a class="" href="/home"><h1> VIDEO BANNER - 2026 </h1></a>
 </div>
 
 <main class="video-list-container">

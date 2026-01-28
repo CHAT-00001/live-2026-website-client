@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount} from 'svelte';
     import {fade} from 'svelte/transition';
-    import {get_list} from '$lib/service/live';
+    import {get_list} from '$lib/api/live';
     import LV_BANNER_500 from "./components/LV_BANNER_500.svelte";
 
     // 定义与API返回结构匹配的类型

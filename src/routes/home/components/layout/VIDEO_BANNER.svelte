@@ -20,7 +20,7 @@
 
         <!-- 标题 + Tabs -->
         <div class="title_bar">
-            <div class="title"><h4>产品</h4></div>
+            <div class="title"><h4>视频</h4></div>
 
             <div class="tab_menu">
                 <!-- Tabs -->

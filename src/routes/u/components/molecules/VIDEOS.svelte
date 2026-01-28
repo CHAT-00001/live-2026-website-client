@@ -154,7 +154,7 @@
 
     .video-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
         gap: 1.5rem;
         margin-bottom: 2rem;
     }
@@ -163,7 +163,7 @@
         display: flex;
         flex-direction: column;
         background: white;
-        /*border-radius: 10px;*/
+        border-radius: 10px;
         overflow: hidden;
         margin-bottom: 1rem;
     }

@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount} from 'svelte';
     import {fade} from 'svelte/transition';
-    import {getNearbyDynamic} from '$lib/service/dynamic';
+    import {getRecommendDynamics} from '$lib/api/dynamic';
     import type {Info} from '$lib/models/dynamic';
     import DYNAMIC_MENU from "./components/layout/DYNAMIC_MENU.svelte";
 
@@ -18,7 +18,7 @@
         if (loading || p > maxPages) return;
         loading = true;
 
-        const res = await getNearbyDynamic({lat, lng, p});
+        const res = await getRecommendDynamics({lat, lng, p});
         list = [...list, ...res.data.info];
         p += 1;
 

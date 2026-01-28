@@ -3,6 +3,9 @@
     import {page} from '$app/stores';
     import {theme, toggleTheme} from "$lib/stores/theme_store.ts";
 
+    // 透明背景
+    let {isHome} = $props();
+
     const menu = [
         {
             id: 1,
@@ -86,11 +89,11 @@
         {
             id: 1,
             _id: "abc",
-            name: "Event",
-            name_zh: "活动",
+            name: "Home",
+            name_zh: "推荐",
             name_jp: "",
             name_kr: "",
-            url: "/event",
+            url: "/home",
             icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-chat-fill\" viewBox=\"0 0 16 16\">\n" +
                 "  <path d=\"M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15\"/>\n" +
                 "</svg>",
@@ -112,12 +115,12 @@
     ]
 </script>
 
-<div class="info_bar">
+<div class="info_bar" class:transparent={isHome}>
     <div class="full">
         <div class="left_bar">
             <div class="menu">
                 <div class="logo"><a href="/" target="_top">⬇️</a></div>
-                <div class="name"><h4>可乐 2026</h4></div>
+                <div class="name"><h4>4K IM</h4></div>
                 <nav class="menu-list">
                     {#each menu as item}
                         <!-- ✅ 核心修改：路由匹配高亮，添加class判断，其他不变 -->
@@ -154,7 +157,7 @@
             </i>
                 <text>通知</text>
             </a>
-            <a href="/im"><i>
+            <a href="/im?client_id=1001ade84166e_1000015847&season=1"><i>
                 <svg class="bi bi-chat-fill" fill="currentColor" height="16" viewBox="0 0 16 16"
                      width="16" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
@@ -194,6 +197,12 @@
         background-color: var(--bar-bg);
         box-sizing: border-box;
         backdrop-filter: blur(20px);
+    }
+
+    .info_bar.transparent {
+        background-color: transparent;
+        backdrop-filter: none;
+        box-shadow: none;
     }
 
     .full {
