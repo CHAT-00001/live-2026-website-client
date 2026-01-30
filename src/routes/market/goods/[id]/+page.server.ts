@@ -1,7 +1,7 @@
 // src/routes/market/goods/[id]/+page.server.ts
 
 import type {PageServerLoad} from './$types';
-import type {ApiResponse, Comment, GoodsDetailItem, GoodsInfo, ShopInfo} from '$lib/models/goods_model';
+import type {Comment, GoodsInfo, ShopInfo} from '$lib/models/goods_model';
 import {getGoodsInfo} from '$lib/api/goods_api';
 
 //////// 00000000
@@ -16,7 +16,8 @@ export const load: PageServerLoad = async ({params, locals}) => {
     console.info("商品ID: " + goodsId);
 
     // 2. 初始化返回数据（注意：删除了错误的 Home 图标导入）
-    let goods: GoodsDetailItem | null = null;
+    // @ts-ignore
+    let goods: Home | null = null;
     let goodsInfo: GoodsInfo | null = null;
     let shopInfo: ShopInfo | null = null;
     let commentLists: Comment[] = [];
@@ -48,12 +49,13 @@ export const load: PageServerLoad = async ({params, locals}) => {
         console.log("登录信息：" + JSON.stringify(auth));
 
         // 调用 API 请求数据
-        const listResponse: ApiResponse = await getGoodsInfo({goodsId, auth});
+        const ApiResponse = await getGoodsInfo({goodsId, auth});
 
         // 假设接口返回结构是 { ret, data: { code, msg, info: [ ... ] } }
-        const infoList = listResponse?.data?.info; // ✅ 这里对齐 ApiResponse 类型，不用二次 data
+        const infoList = ApiResponse?.data?.info;
 
-        console.log('listResponse:', JSON.stringify(listResponse, null, 2));
+        // 打印接口结果
+        //console.log('DataResponse:', JSON.stringify(ApiResponse, null, 2));
 
         // 取数组第一个商品条目
         goods = Array.isArray(infoList) ? infoList[0] ?? null : null;
@@ -72,9 +74,9 @@ export const load: PageServerLoad = async ({params, locals}) => {
     }
 
     return {
-        // stringId,
-        // goodsId,
-        // goods,
+        stringId,
+        goodsId,
+        goods,
         goodsInfo,
         shopInfo,
         commentLists,
