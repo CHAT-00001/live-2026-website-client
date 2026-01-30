@@ -113,9 +113,9 @@ export interface GoodsDetailItem {
 export interface ApiResponse {
     ret: number;
     data: {
-        code: number;
-        msg: string;
-        info: GoodsDetailItem[];
+        code?: number;
+        msg?: string;
+        info?: GoodsDetailItem[];
     };
     msg: string;
 }

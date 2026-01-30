@@ -1,8 +1,7 @@
-// src/api/video.ts
-// 2026-01-10 04:38:45
+// src/api/video.ts - 2026-01-10 04:38:45
 
 import {type ApiResponse, get_api} from "$lib/network";
-import type {ListResponse, VideoListResponse} from "$lib/models/video.ts"; // SvelteKit 路径别名
+import type {ListResponse, VideoListResponse} from "$lib/models/video.ts";
 import listJson from '$lib/data/video/list.json';
 import type {ApiRequestBody} from "$lib/models/api.ts";
 
@@ -56,7 +55,40 @@ export async function getVideoList(req: ApiRequestBody): Promise<ListResponse> {
         clearTimeout(timeout);
         if (!res.ok) throw new Error('API Error');
         const data = (await res.json()) as ListResponse;
-        console.info("api/video: 获取视频列表好啦~！")
+        console.info("api/video: 获取视频列表好啦~！page = {$p}")
+        return data;
+    } catch (e) {
+        console.warn('请求超时或失败，使用本地数据', e);
+        return listJson as ListResponse;
+    }
+}
+
+
+/**
+ * VIDEO LIST - 附近的视频
+ * @param req
+ */
+export async function getNearbyList(req: ApiRequestBody): Promise<ListResponse> {
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2000);
+
+    const url = new URL('http://api2.damawei.com:8080/appapi/');
+    url.searchParams.set('s', 'video.getNearbyList');
+    if (req.lat != null) {
+        url.searchParams.set('lat', req.lat);
+    }
+    if (req.lng != null) {
+        url.searchParams.set('lng', req.lng);
+    }
+    url.searchParams.set('p', (req.p || 1).toString());
+
+    try {
+        const res = await fetch(url.toString(), {signal: controller.signal});
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error('API Error');
+        const data = (await res.json()) as ListResponse;
+        console.info("api/video: 获取视频列表好啦~！page = {$p}")
         return data;
     } catch (e) {
         console.warn('请求超时或失败，使用本地数据', e);

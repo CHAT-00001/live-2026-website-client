@@ -297,7 +297,7 @@
         font-size: 12px;
         gap: 2px;
         transition: border-bottom 0.4s ease, color 0.4s ease;
-        border-bottom: solid 2px #f6f6f6;
+        border-bottom: solid 2px rgba(222, 222, 222, 0.2);
     }
 
     .menu-item:hover,

@@ -1,5 +1,6 @@
 // src/hooks.server.ts
 import type {Handle, HandleServerError} from '@sveltejs/kit';
+// @ts-ignore
 import type {LoginState} from '$lib/stores/login';
 
 declare module '@sveltejs/kit' {
@@ -33,8 +34,8 @@ export const handle: Handle = async ({ event, resolve }) => {
     // @ts-ignore
     // @ts-ignore
     event.locals.loginState = {
-        uid: '1000010441',
-        token: '46ce0f086d215805c50bbf1ce6fbc1eb'
+        uid: '1000008860',
+        token: '81706a99665805fe21a2bc7502a07bef'
     };
 
     const now = new Date();

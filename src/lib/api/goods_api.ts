@@ -9,16 +9,7 @@ import listJson from '$lib/data/shop/goods_info.json'; // 模拟数据
  * @param req
  * req.goodsId  商品ID
  * req.auth     登录态（由 server 层注入，强烈推荐）
- */
-/**
- * GOODS DETAIL - 获取商品详情
- */
-
-/**
- * 带有颜色的控制台输出
- */
-/**
- * 带有特定 RGB 颜色 (#41ff00) 的控制台输出
+ * url: http://api2.damawei.com:8080/appapi/?s=shop.getGoodsInfo&goodsid=1000000140
  */
 export async function getGoodsInfo(req: {
     goodsId: number;

@@ -151,7 +151,7 @@
     <div class="wrapper">
         <div class="item">
             <div class="thumbnails">
-                <a href="/market/goods/可爱字母t@1000015410" target="_blank"><img
+                <a href="/market/goods/可爱字母t@1000000140" target="_blank"><img
                         src="http://cdn1.damawei.com/4752a.jpeg?imageView2/1/w/480/h/480"/></a>
 
             </div>
