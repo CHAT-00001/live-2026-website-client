@@ -26,7 +26,7 @@ export const handleError: HandleServerError = ({error, event}) => {
 
 export const handle: Handle = async ({ event, resolve }) => {
     // 1. 生成本次请求的唯一 ID (无分割符 UUID)
-    const requestId = crypto.randomUUID().replace(/-/g, '');
+    const requestId = crypto.randomUUID().replace(/-/g, '').slice(0, 8);
     event.locals.requestId = requestId;
 
     // 2. 模拟/获取登录状态
@@ -42,7 +42,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     const utcTime = now.toISOString();
 
     // 打印服务器接收请求日志
-    console.info(`[${requestId}] [${utcTime}] SSR Request: ${event.url.pathname}`);
+    console.info(`[${utcTime}] [${requestId}] SSR Request: ${event.url.pathname}`);
 
     const response = await resolve(event, {
         transformPageChunk: ({ html }) => {
