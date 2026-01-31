@@ -1,98 +1,153 @@
-<!-- src/routes/live/+page.svelte -->
-
 <script lang="ts">
     import {onMount} from 'svelte';
     import {fade} from 'svelte/transition';
+    import {get_list} from '$lib/api/live';
     import LV_BANNER_500 from "./components/LV_BANNER_500.svelte";
 
-    // ------------------ 数据接收 ------------------
-    export let data: any;
-
-    // 1. 静态数据：推荐位只拿初始加载的 5 条，后续不再改变
-    $: recommendList = data?.recommendList?.slice(0, 5) || [];
-    $: slideList = data?.slideList || [];
-
-    // 2. 动态数据：主列表支持追加
-    let dynamicList: any[] = [];
-    $: if (data?.mainList && dynamicList.length === 0) {
-        dynamicList = [...data.mainList];
+    // 定义与API返回结构匹配的类型
+    interface SlideItem {
+        slide_pic: string;
+        slide_url: string;
     }
 
-    // ------------------ 状态管理 ------------------
-    let page = 2;
+    interface ContentItem {
+        uid: number;
+        title: string;
+        city: string;
+        stream: string;
+        pull: string;
+        thumb: string;
+        isvideo: number;
+        type: number;
+        type_val: string;
+        goodnum: string;
+        anyway: number;
+        starttime: number;
+        isshop: number;
+        game_action: number;
+        isrecommend: number;
+        live_type: number;
+        voice_type: number;
+        hotvotes: number;
+        recommend_time: number;
+        nums: string;
+        avatar: string;
+        avatar_thumb: string;
+        user_nickname: string;
+        sex: string;
+        level: string;
+        level_anchor: string;
+        game: string;
+    }
+
+    interface ApiResponse {
+        ret: number;
+        data: {
+            code: number;
+            msg: string;
+            info: Array<{
+                slide: SlideItem[];
+                list: ContentItem[];
+                recommend: ContentItem[];
+                attent_live_nums: string;
+                attent_list: [];
+            }>;
+        };
+        msg: string;
+    }
+
+    // 初始化变量
+    let slideList: SlideItem[] = [];
+    let recommendList: Info[] = [];
+    let mainList: Info[] = [];
+    let dynamicList: (ContentItem | Info)[] = []; // 用于存储“动态”数据
+
+    let p = 1;
     let loading = false;
     let maxPages = 20;
-    let imgLoaded: Record<string | number, boolean> = {};
+    let imgLoaded: { [key: number]: boolean } = {}; // 使用对象存储图片加载状态
 
-    function setLoaded(id: string | number) {
-        imgLoaded[id] = true;
-        imgLoaded = imgLoaded;
-    }
+    const lat = '22.728144';
+    const lng = '106.334001';
 
-    // ------------------ loadMore: 只更新主列表 ------------------
-    let loadError = false; // 新增一个错误状态
     async function loadMore() {
-        if (loading || page > maxPages || loadError) return;
+        if (loading || p > maxPages) return;
         loading = true;
-        loadError = false;
 
         try {
-            const response = await fetch(`/live?page=${page}`, {
-                headers: {'Accept': 'application/json'}
-            });
+            // 1. 先请求数据
+            const res = await get_list<ApiResponse>({lat, lng, p});
 
-            if (!response.ok) throw new Error('Fetch failed');
-            const result = await response.json();
-
-            // 提取新数据 (兼容 SvelteKit 序列化格式)
-            const rawData = result.type === 'data' ? result.data : result;
-            const newList = rawData?.mainList || [];
-
-            if (newList.length > 0) {
-                // ✅ 只更新 dynamicList
-                dynamicList = [...dynamicList, ...newList];
-                page += 1;
-            } else {
-                maxPages = page;
+            // 检查返回数据是否有效
+            if (res.ret !== 200 || res.data.code !== 0 || !res.data.info || res.data.info.length === 0) {
+                console.error('数据加载失败:', res.msg || '未知错误');
+                return;
             }
-        } catch (err) {
-            console.error('滚动加载失败:', err);
-            loadError = true; // 记录错误
-            // 3秒后允许再次尝试，防止瞬间死循环抖动
-            setTimeout(() => {
-                loadError = false;
-            }, 3000);
+
+            const info = res.data.info[0]; // 假设我们只需要info数组的第一个元素
+
+            // 2. 根据页码处理数据
+            if (p === 1) {
+                // 第一页，加载轮播图、推荐列表和主列表
+                slideList = info.slide || [];
+                recommendList = info.recommend || [];
+                mainList = info.list || [];
+            }
+
+            // 所有页都加载动态列表 (这里假设info[0].list就是动态列表数据)
+            // 如果动态列表数据在API中有单独的字段，请替换它
+            dynamicList = [...dynamicList, ...info.list || []];
+
+            p += 1;
+        } catch (error) {
+            console.error('网络请求异常:', error);
         } finally {
             loading = false;
         }
     }
 
     onMount(() => {
+        loadMore();
+
+        // 使用防抖优化滚动事件
+        let debounceTimer: NodeJS.Timeout;
         const handleScroll = () => {
-            if (loading) return;
-            const {scrollTop, scrollHeight, clientHeight} = document.documentElement;
-            if (scrollTop + clientHeight >= scrollHeight - 300) {
-                loadMore();
-            }
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight;
+                const clientHeight = document.documentElement.clientHeight;
+
+                if (scrollTop + clientHeight >= scrollHeight - 200) { // 距离底部200px时加载
+                    loadMore();
+                }
+            }, 200);
         };
-        window.addEventListener('scroll', handleScroll, {passive: true});
-        return () => window.removeEventListener('scroll', handleScroll);
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            clearTimeout(debounceTimer);
+        };
     });
 </script>
-
 <svelte:head>
-    <title>实况直播 - 首页</title>
+    <title>实况直播 - [ GEO - 10048 ] - 首页 - </title>
 </svelte:head>
+
 <div class="line_100"></div>
+<!-- 轮播图区域 -->
 {#if slideList.length > 0}
     <div class="wrapper">
         <section class="banner-section">
             <div class="slides-container">
                 {#each slideList as slide (slide.slide_pic)}
                     <div class="slide-item">
-                        <img loading="lazy" src={slide.slide_pic} alt="" class="slide-image"
-                             on:load={() => setLoaded(slide.slide_pic)}
-                             class:loaded={imgLoaded[slide.slide_pic]}/>
+                        <img src={slide.slide_pic} alt="轮播图" class="slide-image" loading="lazy"
+                             on:load={() => imgLoaded[slide.slide_pic.length + slide.slide_url.length] = true}/>
+                        {#if slide.slide_url && slide.slide_url !== '00'}
+                            <a href={slide.slide_url} class="slide-link">查看详情</a>
+                        {/if}
                     </div>
                 {/each}
             </div>
@@ -100,6 +155,7 @@
     </div>
 {/if}
 
+<!-- 推荐直播区域 -->
 {#if recommendList.length > 0}
     <div class="wrapper">
         <section class="recommend-section">
@@ -108,21 +164,27 @@
                 {#each recommendList as item (item.uid)}
                     <div class="recommend-card" in:fade={{ duration: 300 }}>
                         <div class="recommend-thumb">
-                            <a target="_blank" href="/live/stream/{item.uid}">
-                                <img loading="lazy" src={item.thumb} alt={item.title}
-                                     on:load={() => setLoaded(`rec_${item.uid}`)}
-                                     class:loaded={imgLoaded[`rec_${item.uid}`]}/>
-                            </a>
+                            <a target="_blank"
+                               href="/live/stream/{item.uid}?r_id={item.uid}_00000a01f4ea8444d8a4f8caee"><img
+                                    src={item.thumb} alt={item.title} loading="lazy"
+                                    on:load={() => imgLoaded[item.uid] = true}
+                                    class:loaded={imgLoaded[item.uid]}/></a>
                             {#if item.isvideo === 0}
                                 <div class="live-badge">直播中</div>
                             {/if}
                         </div>
                         <div class="recommend-info">
                             <div class="recommend-user">
-                                <img loading="lazy" src={item.avatar_thumb} alt="" class="user-avatar"/>
+                                <a target="_blank"
+                                   href="/live/stream/{item.uid}?r_id={item.uid}_00000a01f4ea8444d8a4f8caee"><img
+                                        src={item.avatar_thumb} alt={item.user_nickname} class="user-avatar"/></a>
                                 <span class="user-name">{item.user_nickname}</span>
                             </div>
                             <h4 class="recommend-title">{item.title}</h4>
+                            <div class="recommend-meta">
+                                <span class="city">{item.city}</span>
+                                <span class="viewer">👀 {item.nums}</span>
+                            </div>
                         </div>
                     </div>
                 {/each}
@@ -132,48 +194,48 @@
 {/if}
 
 <LV_BANNER_500/>
-
-{#if dynamicList.length > 0}
+<!-- 主列表区域 -->
+{#if mainList.length > 0}
     <div class="wrapper">
         <section class="main-list-section">
             <h3 class="section-title">热门</h3>
             <div class="main-list">
-                {#each dynamicList as item (item.uid)}
+                {#each mainList as item (item.uid)}
                     <div class="main-card" in:fade={{ duration: 300 }}>
                         <div class="main-card-header">
                             <div class="user-info">
-                                <img loading="lazy" src={item.avatar_thumb} alt="" class="user-avatar"/>
+                                <a target="_blank" href="/u/{item.uid}"><img src={item.avatar_thumb}
+                                                                             alt={item.user_nickname}
+                                                                             class="user-avatar"/></a>
                                 <div class="user-details">
-                                    <div class="user-name">{item.user_nickname}</div>
+                                    <div class="user-name"><a target="_blank"
+                                                              href="/u/{item.uid}">{item.user_nickname}</a></div>
                                     <div class="user-level">Lv.{item.level_anchor}</div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="main-thumb">
-                            <a target="_blank" href="/live/stream/{item.uid}">
-                                <img loading="lazy" src={item.thumb} alt={item.title}
-                                     on:load={() => setLoaded(`main_${item.uid}`)}
-                                     class:loaded={imgLoaded[`main_${item.uid}`]}/>
-                            </a>
-                        </div>
-                        <div class="live-status">
-                            {#if item.isvideo === 0}
-                                <span class="live-indicator">● 直播中</span>
-                            {:else}
-                                <span class="video-indicator">▶ 视频</span>
-                            {/if}
+                            <div class="live-status">
+                                {#if item.isvideo === 0}
+                                    <span class="live-indicator">● 直播中</span>
+                                {:else}
+                                    <span class="video-indicator">▶ 视频</span>
+                                {/if}
+                            </div>
                         </div>
                         <h4 class="main-title">{item.title}</h4>
+                        <div class="main-thumb"><a target="_blank"
+                                                   href="/live/stream/{item.uid}?r_id={item.uid}_00000a01f4ea8444d8a4f8caee">
+                            <img src={item.thumb} alt={item.title} loading="lazy"
+                                 on:load={() => imgLoaded[item.uid * 10] = true}
+                                 class:loaded={imgLoaded[item.uid * 10]}/></a>
+                        </div>
+                        <div class="main-meta">
+                            <span class="location">📍 {item.city}</span>
+                            <span class="hot">🔥 {item.hotvotes || 0}</span>
+                            <span class="viewers">👥 {item.nums}</span>
+                        </div>
                     </div>
                 {/each}
             </div>
-
-            {#if loading}
-                <div class="loading">
-                    <i class=""/>
-                    <h4>正在搬运更多内容...</h4>
-                </div>
-            {/if}
         </section>
     </div>
 {/if}
@@ -198,11 +260,7 @@
     .loading {
         text-align: center;
         padding: 20px;
-        height: 60px;
         color: #666;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
     /* --- 标题栏 --- */
@@ -287,6 +345,7 @@
     .recommend-section {
         margin: 20px 0;
     }
+
     .recommend-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -315,6 +374,8 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        opacity: 0; /* 初始透明 */
+        transition: opacity 0.3s ease-in-out;
     }
 
     .recommend-thumb img.loaded {
@@ -439,8 +500,9 @@
     .main-thumb img {
         width: 100%;
         height: 100%;
-        aspect-ratio: 2 / 3;
+        aspect-ratio: 1 / 1;
         object-fit: cover;
+        opacity: 0;
         transition: opacity 0.3s ease-in-out;
     }
 

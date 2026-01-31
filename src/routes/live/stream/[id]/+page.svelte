@@ -1,81 +1,108 @@
 <!-- src/routes/live/stream/[id]/+page.svelte -->
-<!-- live room page -->
+
 <script lang="ts">
     import {onMount} from 'svelte';
     import LIVE_CHAT from "../../components/LIVE_CHAT.svelte";
+
+    export let data;
+
+    // server 层已经处理过 info[0]
+    const live = data?.data;
+
+    // log
+    console.log("live", live.pull);
+    const error = data?.error;
 
     let videoEl: HTMLVideoElement;
 
     onMount(() => {
         if (videoEl) {
-            videoEl.volume = 0.1; // 设置音量为 10%
+            videoEl.volume = 0.1;
         }
     });
-
 </script>
+
 <svelte:head>
-    <title>哈基米 - 实况直播 - [ GEO - 10048 ] - room - </title>
+    {#if live}
+        <title>{live.title} - [{live.uid}] - 实况直播</title>
+    {/if}
 </svelte:head>
 
-<div class="room">
-    <div class="line_60"></div>
-    <h3>Title - [RoomId: 0ade15ef02fac01641_1000001841] - xxx 的直播间</h3>
-    <div class="at">
-        <h1>工作区: 180015408411</h1>
-        <h3 class="at_line">Line: LA18</h3>
+{#if error}
+    <div class="room">
+        <h2 style="color:red">{error}</h2>
     </div>
-    <div class="author_info">
-        <img src="http://cdn1.damawei.com/1000004040_IOS_20250501170133_cerFace.png?imageView2/2/w/200/h/200"
-             width="48"/>
-        <a href="/u/1000004851"><span>怡宝2026</span></a>
-        <span>lever: 10</span>
-        <span>ticket: 150000</span>
-    </div>
-    <div class="online_visitors">
-        <span class="quantity">在线观众人数:0</span>
-        <span class="visitors_list">
-            <div class="visitors_users">
-                <div class="item">
-                    <img src="http://cdn1.damawei.com/1000004040_IOS_20250501170133_cerFace.png?imageView2/2/w/200/h/200"/>
-                    <i class="icon"></i>
-                </div>
-            </div>
-        </span>
-    </div>
-    <!-- LED Display-->
-    <div class="led_display">
-        <div class="channels">
-            <label>频道 1</label>
-            <label>频道 2</label>
-            <label>频道 3</label>
-            <label>频道 4</label>
-        </div>
-        <div class="display">
-            <video
-                    bind:this={videoEl}
-                    controls
-                    loop
-                    muted={false}
-                    src="http://cdn1.damawei.com/4963a.mp4"
-                    width="240"
-            />
-        </div>
-        <!-- BARRAGE - 弹幕区 -->
-        <div class="barrage">
-            弹幕滚动区
-        </div>
-    </div>
-    <!-- CHAT Bar-->
-    <div class="chat_bar">
-        <LIVE_CHAT/>
-    </div>
-    <!-- GIT - Display -->
-    <div class="git_display">
-        礼物动画播放区...
-    </div>
-    <div class="line_100"></div>
 
-</div>
+{:else if !live}
+    <div class="room">
+        <h2>Loading live room...</h2>
+    </div>
+
+{:else}
+    <div class="room">
+        <div class="line_60"></div>
+
+        <!-- 标题 -->
+        <h3>{live.title} - {live.user_nickname} 的直播间</h3>
+
+        <!-- 城市 / 基础信息 -->
+        <div class="at">
+            <h1>城市: {live.city}</h1>
+            <h3 class="at_line">Stream: {live.stream}</h3>
+        </div>
+
+        <!-- 主播信息 -->
+        <div class="author_info">
+            <a href={`/u/${live.uid}`}><img src={live.avatar} width="48" alt="avatar"/></a>
+            <a href={`/u/${live.uid}`}><span>{live.user_nickname}</span></a>
+            <span>level: {live.level}</span>
+        </div>
+
+        <!-- 在线人数 -->
+        <div class="online_visitors">
+            <span class="quantity">在线观众人数: {live.nums}</span>
+        </div>
+
+        <!-- LED Display -->
+        <div class="led_display">
+            <div class="channels">
+                <label class="btn">频道 1</label>
+                <label class="btn">频道 2</label>
+                <label class="btn">频道 3</label>
+                <label class="btn">频道 4</label>
+            </div>
+
+            <div class="display">
+                <video
+                        bind:this={videoEl}
+                        controls
+                        autoplay=1
+                        loop
+                        muted={false}
+                        src={live.pull}
+                        poster={live.thumb}
+                />
+            </div>
+
+            <!-- BARRAGE -->
+            <div class="barrage">
+                弹幕滚动区
+            </div>
+        </div>
+
+        <!-- CHAT -->
+        <div class="chat_bar">
+            <LIVE_CHAT/>
+        </div>
+
+        <!-- GIFT -->
+        <div class="git_display">
+            礼物动画播放区...
+        </div>
+
+        <div class="line_100"></div>
+    </div>
+{/if}
 
 <style>
     .room {
@@ -83,12 +110,26 @@
     }
 
     .at_line {
-        color: #4ef1c6
+        color: #4ef1c6;
+    }
+    .led_display {
+
     }
 
-    .led_display {
+    .led_display .channels {
+        display: flex;
+    }
+
+    .display {
         position: relative;
-        height: 440px;
+        max-height: 720px;
         background: #000000;
+        text-align: center;
+    }
+
+    .led_display video {
+        margin: 0 auto;
+        max-width: 1280px;
+        max-height: 720px;
     }
 </style>
