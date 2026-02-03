@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount} from 'svelte';
     import type {Info} from '$lib/models/dynamic';
-    import VIDEO_BANNER from "./components/layout/VIDEO_BANNER.svelte";
+    import VIDEO_BANNER from "../components/layout/VIDEO_BANNER.svelte";
 
     ////////
 
@@ -13,7 +13,7 @@
 
     const lat = '22.332214';
     const lng = '108.361544';
-    console.log("广西南宁市")
+    console.log("[UI层] : 附近的视频...")
 
     async function loadMore() {
         if (loading || p > maxPages) return;

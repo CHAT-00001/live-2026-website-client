@@ -24,7 +24,7 @@
 
 <svelte:head>
     {#if live}
-        <title>{live.title} - [{live.uid}] - 实况直播</title>
+        <title>{live.title} - {live.user_nickname}的直播间 - [{live.uid}] - 实况直播</title>
     {/if}
 </svelte:head>
 

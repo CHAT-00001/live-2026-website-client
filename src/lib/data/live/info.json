@@ -1,0 +1,36 @@
+{
+    "ret": 200,
+    "data": {
+        "code": 0,
+        "msg": "",
+        "info": [
+            {
+                "uid": 1000008802,
+                "title": "\u6446\u644a\u7684\u5c0f\u59d0\u59d0",
+                "city": "\u6e5b\u6c5f",
+                "stream": "1000008802_1704748970",
+                "pull": "http:\/\/cdn1.damawei.com\/20200617_5ee920f225e75.mp4",
+                "thumb": "http:\/\/cdn1.damawei.com\/android_10008802_20240109_052252_4059959.jpg?imageView2\/2\/w\/600\/h\/600",
+                "isvideo": 1,
+                "type": 0,
+                "type_val": "0",
+                "goodnum": "0",
+                "anyway": 0,
+                "starttime": 1704748970,
+                "isshop": 0,
+                "game_action": 0,
+                "pkuid": 0,
+                "pkstream": "",
+                "nums": "0",
+                "avatar": "http:\/\/cdn1.damawei.com\/20200325_5e7a6e4c7ee57.jpg",
+                "avatar_thumb": "http:\/\/imgs.act00.com\/20200325_5e7a6e4c7ee57.jpg",
+                "user_nickname": "\u4e0d\u559d\u78b3\u9178\u996e\u6599",
+                "sex": "2",
+                "level": "9",
+                "level_anchor": "9",
+                "game": ""
+            }
+        ]
+    },
+    "msg": ""
+}

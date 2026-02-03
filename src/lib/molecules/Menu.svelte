@@ -262,7 +262,7 @@
     }
 
     .logo {
-        margin: 0 12px;
+        margin: 0 0;
     }
 
     .logo a {

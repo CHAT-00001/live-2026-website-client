@@ -1,6 +1,6 @@
 // routes/api/video/nearby/+server.ts
 
-import {getVideoList} from '$lib/api/video.ts';
+import {getNearbyList} from '$lib/api/video.ts';
 import type {ApiRequestBody} from '$lib/models/api.ts';
 import type {RequestHandler} from './$types';
 
@@ -13,7 +13,7 @@ export const GET: RequestHandler = async ({ url }) => {
     };
 
     try {
-        const data = await getVideoList(params);
+        const data = await getNearbyList(params);
         return new Response(JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
     } catch (err) {
         return new Response(JSON.stringify({ error: (err as Error).message }), { status: 500 });

@@ -1,6 +1,6 @@
 import type {ApiRequestBody} from "$lib/models/api.ts";
 import type {ListResponse} from "$lib/models/video.ts";
-import listJson from "$lib/data/live/list.json";
+import FallbackData from '$lib/data/live/list.json'; // 兜底数据
 
 
 /**
@@ -12,6 +12,7 @@ export async function get_list(req: ApiRequestBody) {
     const requestId = crypto.randomUUID().replace(/-/g, '');
     const utcTime = new Date().toISOString();
     const path = "home.getHot";
+    const name = "直播主页";
 
     // --- ANSI 颜色常量 ---
     const RESET = "\x1b[0m";
@@ -39,6 +40,7 @@ export async function get_list(req: ApiRequestBody) {
     );
 
     try {
+
         const res = await fetch(url.toString(), {signal: controller.signal});
         clearTimeout(timeout);
 
@@ -47,6 +49,7 @@ export async function get_list(req: ApiRequestBody) {
         const data = (await res.json()) as ListResponse;
 
         // 3. 打印成功日志 (绿色)
+        console.info("网络请求: Ok!" + name);
         console.info(
             `${LIME_GREEN}[${requestId}]${RESET} [${new Date().toISOString()}] ${GREEN}✔ Fetch Success: Got ${data.data?.info?.length || 0} items${RESET}`
         );
@@ -60,7 +63,7 @@ export async function get_list(req: ApiRequestBody) {
             `${LIME_GREEN}[${requestId}]${RESET} [${new Date().toISOString()}] ${RED}✘ Fetch Failed: 使用本地数据${RESET}`,
             e
         );
-        return (listJson as unknown) as ListResponse;
+        return FallbackData as unknown as ListResponse;
     }
 }
 

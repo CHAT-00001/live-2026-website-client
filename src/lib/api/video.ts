@@ -38,7 +38,7 @@ export async function get_video_by_id(
 export async function getVideoList(req: ApiRequestBody): Promise<ListResponse> {
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
+    const timeout = setTimeout(() => controller.abort(), 5000);
 
     const url = new URL('http://api2.damawei.com:8080/appapi/');
     url.searchParams.set('s', 'video.getVideoList');
@@ -71,7 +71,7 @@ export async function getVideoList(req: ApiRequestBody): Promise<ListResponse> {
 export async function getNearbyList(req: ApiRequestBody): Promise<ListResponse> {
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
+    const timeout = setTimeout(() => controller.abort(), 5000);
 
     const url = new URL('http://api2.damawei.com:8080/appapi/');
     url.searchParams.set('s', 'video.getNearbyList');

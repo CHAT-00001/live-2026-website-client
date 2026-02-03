@@ -5,6 +5,10 @@
 <h1>PHOTO</h1>
 <h3>照片</h3>
 
+<div class="banner_480">
+    <div class="banner_wrapper"><h2>2026-0000</h2></div>
+</div>
+
 
 <!-- 照片墙 -->
 <div class="photo">
@@ -24,6 +28,23 @@
 
 
 <style>
+    .banner_480 {
+        display: block;
+        padding: 20px;
+        width: 100%;
+
+
+    }
+
+    .banner_480 .banner_wrapper {
+        display: block;
+        width: 100%;
+        min-height: 200px;
+        max-height: 500px;
+        aspect-ratio: 1 / 5;
+        border-radius: 20px;
+        background: #f0f0f0;
+    }
     .the_wall {
         display: grid;
         width: 100%;

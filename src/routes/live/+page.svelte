@@ -142,10 +142,20 @@
                     <div class="main-card" in:fade={{ duration: 300 }}>
                         <div class="main-card-header">
                             <div class="user-info">
-                                <img loading="lazy" src={item.avatar_thumb} alt="" class="user-avatar"/>
+                                <a target="_blank" href="/u/{item.uid}"><img loading="lazy" src={item.avatar_thumb}
+                                                                             alt="" class="user-avatar"/></a>
                                 <div class="user-details">
-                                    <div class="user-name">{item.user_nickname}</div>
+                                    <a target="_blank" href="/u/{item.uid}">
+                                        <div class="user-name">{item.user_nickname}</div>
+                                    </a>
                                     <div class="user-level">Lv.{item.level_anchor}</div>
+                                </div>
+                                <div class="live-status">
+                                    {#if item.isvideo === 0}
+                                        <span class="live-indicator">● 直播中</span>
+                                    {:else}
+                                        <span class="video-indicator">▶ 视频</span>
+                                    {/if}
                                 </div>
                             </div>
                         </div>
@@ -156,13 +166,12 @@
                                      class:loaded={imgLoaded[`main_${item.uid}`]}/>
                             </a>
                         </div>
-                        <div class="live-status">
-                            {#if item.isvideo === 0}
-                                <span class="live-indicator">● 直播中</span>
-                            {:else}
-                                <span class="video-indicator">▶ 视频</span>
-                            {/if}
+                        <div class="main-meta">
+                            <span class="location">📍 {item.city}</span>
+                            <span class="hot">🔥 {item.hotvotes || 0}</span>
+                            <span class="viewers">👥 {item.nums}</span>
                         </div>
+
                         <h4 class="main-title">{item.title}</h4>
                     </div>
                 {/each}
@@ -287,6 +296,7 @@
     .recommend-section {
         margin: 20px 0;
     }
+
     .recommend-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -379,7 +389,7 @@
     /* --- 主列表 --- */
     .main-list {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 16px;
     }
 
@@ -417,11 +427,21 @@
         font-weight: bold;
     }
 
+    .user-info {
+        display: flex;
+        width: 100%;
+        align-items: center; /* 顺便垂直居中，好看点 */
+    }
+
+    .user-info .live-status {
+        margin-left: auto;
+    }
+
     .main-title {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
         margin-bottom: 12px;
-        color: #333;
+        color: #333333;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -430,7 +450,7 @@
     .main-thumb {
         width: 100%;
         height: auto;
-        aspect-ratio: 2 / 3;
+        aspect-ratio: 2 / 2;
         border-radius: 20px;
         overflow: hidden;
         margin-bottom: 12px;

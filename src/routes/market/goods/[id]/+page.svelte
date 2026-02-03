@@ -115,24 +115,32 @@
             <h3>支付方式</h3>
             <ul class="pay_list_item">
                 <li>
-                    <img src="/Alipay.png" alt="Alipay" class="img_100"/>
+                    <img src="/assets/images/pay/Alipay.png" alt="Alipay" class="img_100"/>
                     <span>支付宝</span>
                 </li>
                 <li>
-                    <img src="/WeChat.png" alt="WeChat" class="img_100"/>
+                    <img src="/assets/images/pay/WeChatPay.png" alt="WeChat" class="img_100"/>
                     <span>微信支付</span>
                 </li>
                 <li>
-                    <img src="/Paypal.png" alt="Paypal" class="img_100"/>
+                    <img src="/assets/images/pay/PayPal.png" alt="Paypal" class="img_100"/>
                     <span>PayPal</span>
                 </li>
                 <li>
-                    <img src="/Mastercard.png" alt="Mastercard" class="img_100"/>
+                    <img src="/assets/images/pay/Mastercard.png" alt="Mastercard" class="img_100"/>
                     <span>万事达</span>
                 </li>
                 <li>
-                    <img src="/Visa.png" alt="Visa" class="img_100"/>
+                    <img src="/assets/images/pay/Visa.png" alt="Visa" class="img_100"/>
                     <span>Visa</span>
+                </li>
+                <li>
+                    <img src="/assets/images/pay/Stripe.png" alt="Sprite" class="img_100"/>
+                    <span>Sprite</span>
+                </li>
+                <li>
+                    <img src="/assets/images/pay/ApplePay.png" alt="Sprite" class="img_100"/>
+                    <span>ApplePay</span>
                 </li>
             </ul>
         </section>

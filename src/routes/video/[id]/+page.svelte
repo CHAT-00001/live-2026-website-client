@@ -1,6 +1,7 @@
 <script lang="ts">
     import COMMENTS from "../components/molecules/COMMENTS.svelte";
     import {onMount} from 'svelte';
+    import FooterBar from "$lib/ui/base/FooterBar.svelte";
 
     let videoVolume = 0.2;
     let videoElement: HTMLVideoElement | null = null;
@@ -133,8 +134,7 @@
     <h1>欢迎观看视频~</h1>
 </div>
 
-<h1>THANKS - 2026</h1>
-<h2>Copyright 2026 - 乐可信息系统</h2>
+<FooterBar/>
 
 <style>
     .video-detail {

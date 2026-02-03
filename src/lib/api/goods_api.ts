@@ -13,7 +13,7 @@ import listJson from '$lib/data/shop/goods_info.json'; // 模拟数据
  */
 export async function getGoodsInfo(req: {
     goodsId: number;
-    auth?: { uid: number; token: string };
+    auth?: { uid: string; token: string };
 }): Promise<ListResponse> {
     const requestId = crypto.randomUUID().replace(/-/g, '');
     const utcTime = new Date().toISOString();
@@ -32,7 +32,7 @@ export async function getGoodsInfo(req: {
     url.searchParams.set('goodsid', String(req.goodsId || '1000000140'));
 
     if (req.auth?.uid && req.auth?.token) {
-        url.searchParams.set('uid', String(req.auth.uid));
+        url.searchParams.set('uid', req.auth.uid);
         url.searchParams.set('token', req.auth.token);
     }
 
