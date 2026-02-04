@@ -1,5 +1,8 @@
 <script>
     ////////
+
+    // 获取年份
+    const currentYear = new Date().getFullYear();
 </script>
 
 <footer class="footer_led">
@@ -17,7 +20,7 @@
                 <div class="footer_logo">
                     <i class="bi bi-chat-left-fill fs-3 mx-2"></i>
                 </div>
-                <div>copyright 2026</div>
+                <div>copyright {currentYear}</div>
             </div>
         </div>
         <div class="item">
@@ -48,6 +51,7 @@
         </div>
     </div>
 </footer>
+<div class="line_100">THE END</div>
 
 <style>
     .footer_led {

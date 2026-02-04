@@ -49,7 +49,7 @@
 </script>
 
 <svelte:head>
-    <title>推荐 - 首页</title>
+    <title>推荐</title>
 </svelte:head>
 
 <FULL_SCREEN_PLAYER

@@ -38,7 +38,8 @@
     --line-q: #171717;
     --text-333333: #cccccc;
     --title-bar: rgba(0, 0, 0, 0.88);
-    --link-visited: color(display-p3 0 100 1023 / 1);
+    --link-hover: color(display-p3 0 0 1 / 1);
+    --link-visited: color(display-p3 0 0.39 0.4 / 1);
 }
 
 /* 全局过渡动画：主题切换时，所有颜色渐变200ms */
@@ -161,12 +162,15 @@ li {
 
 a {
     text-decoration: none;
-    /*color: #00cfff;*/
     color: var(--text-333333);
 }
 
 a:visited {
     color: var(--link-visited);
+}
+
+a:hover {
+    color: var(--link-hover);
 }
 
 .data-time {
@@ -181,4 +185,78 @@ a:visited {
     width: 48px;
     height: 48px;
     border-radius: 10%;
+}
+
+/* 1. 屏幕 < 600px：基准 h4 = 12px */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    /* 12px × 2（默认h1是h4的2倍） */
+    h2 {
+        font-size: 18px;
+    }
+
+    /* 12px × 1.5（默认h2是h4的1.5倍） */
+    h3 {
+        font-size: 14px;
+    }
+
+    /* 12px × 1.17（默认h3是h4的1.17倍） */
+    h4 {
+        font-size: 12px;
+    }
+
+    /* 基准值 */
+    h5 {
+        font-size: 10px;
+    }
+
+    /* 12px × 0.83（默认h5是h4的0.83倍） */
+    h6 {
+        font-size: 8px;
+    }
+
+    /* 12px × 0.67（默认h6是h4的0.67倍） */
+}
+
+/* 2. 屏幕 600-1200px：使用浏览器默认值（无需额外设置） */
+@media (min-width: 600px) and (max-width: 1600px) {
+    /* 这里留空，自动使用浏览器默认字号：
+       h1=32px、h2=24px、h3=18.72px、h4=16px、h5=13.28px、h6=10.72px */
+}
+
+/* 3. 屏幕 1200-2400px：基准 h4 = 24px */
+@media (min-width: 1600px) and (max-width: 4800px) {
+    h1 {
+        font-size: 48px;
+    }
+
+    /* 24px × 2 */
+    h2 {
+        font-size: 36px;
+    }
+
+    /* 24px × 1.5 */
+    h3 {
+        font-size: 28px;
+    }
+
+    /* 24px × 1.17 */
+    h4 {
+        font-size: 24px;
+    }
+
+    /* 基准值 */
+    h5 {
+        font-size: 20px;
+    }
+
+    /* 24px × 0.83 */
+    h6 {
+        font-size: 16px;
+    }
+
+    /* 24px × 0.67 */
 }

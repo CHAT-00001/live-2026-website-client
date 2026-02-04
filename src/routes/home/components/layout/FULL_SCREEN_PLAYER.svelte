@@ -218,7 +218,7 @@
                                         <div class="time">{item.time}</div>
                                         <div class="music">
                                             <div class="music-marquee">
-                                                <span>{item.music_info.name}</span>
+                                                <span><h4>{item.music_info.name}</h4></span>
                                             </div>
                                         </div>
                                     </div>
@@ -242,16 +242,6 @@
 </div>
 
 <style>
-
-    /*:global(body, html) {*/
-    /*    margin: 0;*/
-    /*    padding: 0;*/
-    /*    width: 100%;*/
-    /*    height: 100%;*/
-    /*    background: #000;*/
-    /*    overflow: hidden;*/
-    /*}*/
-
     .full_screen_player {
         width: 100vw;
         height: 100vh;
@@ -344,6 +334,10 @@
         word-break: break-all;
     }
 
+    .info .at .wrapper {
+        padding: 0;
+    }
+
     .info .time {
         color: #00ff00;
         font-size: 12px;
@@ -359,7 +353,7 @@
     .music-marquee span {
         display: inline-block;
         padding-left: 100%;
-        animation: music-scroll 8s linear infinite;
+        animation: music-scroll 10s linear infinite;
     }
 
     .music-marquee:hover span {
@@ -373,35 +367,6 @@
         to {
             transform: translateX(-100%);
         }
-    }
-
-    /* 右侧操作栏-抖音case */
-    .right_bar {
-        position: absolute;
-        right: 10px;
-        bottom: 60px;
-        z-index: 10; /* 确保在最上层 */
-        color: white;
-        text-align: center;
-    }
-
-    .right_bar .avatar {
-        position: relative;
-    }
-
-    /* 添加关注按钮 */
-    .right_bar .add {
-        display: block;
-        position: absolute;
-        left: 15px;
-        bottom: -5px;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        z-index: 10;
-        color: #ffffff;
-        background: #f00;
-        align-content: center;
     }
 
     .avatar_48_r50p {

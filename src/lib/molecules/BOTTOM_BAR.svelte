@@ -5,95 +5,76 @@
             id: 1,
             _id: "abc",
             name: "Home",
-            name_zh: "推荐",
+            name_zh: "主页",
             name_jp: "",
             name_kr: "",
             url: "/",
-            icon: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
+            icon: "bi-house-door-fill",
             sort: 0,
         },
         {
-            id: 1,
+            id: 2,
             _id: "abc",
-            name: "Dynamic",
-            name_zh: "动态",
+            name: "Nearby",
+            name_zh: "附近",
             name_jp: "",
             name_kr: "",
-            url: "/dynamic",
-            icon: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
+            url: "/nearby",
+            icon: "bi-radar",
             sort: 0,
         },
         {
-            id: 1,
+            id: 3,
             _id: "abc",
-            name: "Living",
-            name_zh: "关注",
+            name: "Add",
+            name_zh: "+",
             name_jp: "",
             name_kr: "",
-            url: "/live",
-            icon: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
+            url: "/create",
+            icon: "bi-plus-square-fill",
             sort: 0,
         },
         {
-            id: 1,
+            id: 4,
             _id: "abc",
-            name: "Product",
-            name_zh: "市场 Market",
+            name: "Message",
+            name_zh: "消息",
             name_jp: "",
             name_kr: "",
-            url: "/product",
-            icon: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
+            url: "/message",
+            icon: "bi-chat-fill",
             sort: 0,
         },
         {
-            id: 1,
+            id: 5,
             _id: "abc",
-            name: "Photo",
-            name_zh: "喜欢 Like",
+            name: "Mine",
+            name_zh: "我的",
             name_jp: "",
             name_kr: "",
-            url: "/photo",
-            icon: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
+            url: "/mine",
+            icon: "bi-person-fill",
             sort: 0,
-        },
-        {
-            id: 1,
-            _id: "abc",
-            name: "Library",
-            name_zh: "库 Library",
-            name_jp: "",
-            name_kr: "",
-            url: "/library",
-            icon: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
-            sort: 0,
-        },
+        }
     ]
 </script>
 
 <div class="tab_bar">
-    <div class="left_bar">
+    <div class="container">
         <div class="menu">
-            <nav class="menu">
-                {#each menu as item}
-                    <a href={item.url} class="menu-item">
-                        <img src={item.icon} alt={item.name}/>
-                        <span>{item.name_zh || item.name}</span>
-                    </a>
-                {/each}
-            </nav>
+            {#each menu as item}
+                <a href={item.url} class="menu-item">
+                    <i class="bi {item.icon}"></i>
+                    <span>{item.name_zh || item.name}</span>
+                </a>
+            {/each}
         </div>
-    </div>
-    <div class="right_bar">
-        <button>地图 Map</button>
-        <button>消息 Message</button>
-        <button>我的 Mine </button>
-        <button>设置 Setting</button>
     </div>
 </div>
 
 <style>
     .tab_bar {
-        display: none;
+        /*display: none;*/
         position: fixed;
         bottom: 0;
         left: 0;
@@ -103,30 +84,49 @@
         z-index: 50;
         backdrop-filter: blur(20px);
     }
-    .menu {
+
+    .tab_bar .container {
         display: block;
+        margin: 0 auto;
+        max-width: 640px;
+    }
+
+    .menu {
+        display: flex;
+        margin-top: 6px;
         padding: 0px;
+        width: 100%;
     }
 
     .menu-item {
-        display: flex;
+        flex: 1;
         align-items: center;
         text-decoration: none;
-        color: #333;
+        color: --var(--color-text);
         font-size: 12px;
         font-weight: bold;
+        border-radius: 16px;
     }
 
-    .menu-item img {
-        margin: 10px;
-        width: 24px;
-        height: 24px;
+    .menu-item:hover {
+        background-color: var(--color-primary);
+    }
+
+    .menu-item i.bi {
+        display: block;
+        margin: 0 auto;
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
         border-radius: 4px;
     }
+
     .menu-item span {
+        display: block;
         margin: 0;
-        width: 100px;
         height: 24px;
+        font-size: 10px;
+        text-align: center;
         line-height: 24px;
         border-radius: 4px;
     }
@@ -135,6 +135,7 @@
         color: #0070f3;
         background: #f1f1f1;
     }
+
     .menu-item:active {
         color: #ffffff;
         background: #0011ff;
