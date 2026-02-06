@@ -12,13 +12,20 @@ const fileContent = fs.readFileSync(configPath, 'utf-8');
 export const config = TOML.parse(fileContent) as any;
 
 /**
- * 助手函数：根据当前环境获取 API 配置
- * @param version 'v1' (PHP) | 'v4' (Rust)
+ * 智能构建 URL
+ * @param version 'v1' | 'v4'
+ * @param endpoint 接口名，如 'video.getVideoList' 或 'video'
  */
-export function getApiConfig(version: 'v1' | 'v4' = 'v1') {
+export function buildApiUrl(version: 'v1' | 'v4', endpoint: string) {
     const api = config.api[version];
-    return {
-        baseURL: `${api.host}/appapi/`, // 拼接你之前的路径
-        ...api
-    };
+    const baseUrl = `${api.host}${api.prefix}`;
+
+    if (version === 'v1') {
+        // PHP 旧版风格：baseUrl?s=video.getVideoList
+        return `${baseUrl}?s=${endpoint}`;
+    } else {
+        // Rust 新版风格：baseUrl/video
+        // 假设 endpoint 传的是 'video'
+        return `${baseUrl}/${endpoint.replace(/\./g, '/')}`;
+    }
 }
