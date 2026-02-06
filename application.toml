@@ -1,0 +1,73 @@
+# /application.toml /根目录
+
+## App 应用识别铭牌
+[app]
+name = "IM_Clent"
+name_zh = "即时通讯客户端_2026"
+name_kr = ""
+name_jp = ""
+name_tal = ""
+version = "0.1.0"
+version = "0.1.0"
+port = 5173
+
+# PG数据库配置
+[pg]
+host = "127.0.0.1"
+port = 3306
+username = "root"
+password = "123456"
+database = "test_db"
+tables = ["user", "order"]
+
+# Redis数据库配置
+[redis]
+host = "127.0.0.1"
+port = 6379
+username = ""          # 如果没设 ACL 留空即可
+password = "123456"
+database = 0           # Redis 默认数据库索引通常是数字
+
+# Gateway PHP旧版网关
+[gateway]
+host = "https://www.damawei.com:443"
+port = 443
+app_id = 10001841
+key = "abc01def001214"
+singuers = "123456"
+
+
+# Api Server PHP
+[api.v1]
+host = "https://api4.damawei.com:8080"
+port = 8080
+app_id = 10001841
+key = "abc01def001214"
+singuers = "123456"
+
+
+# Api Server RUST
+[api.v4]
+host = "https://api4.damawei.com:8080"
+port = 8080
+app_id = 10001841
+key = "abc01def001214"
+singuers = "123456"
+
+
+## 兜底 - 聊天服务器
+[base_im]
+host = "https://im.damawei.com:50001/ws/"
+sign_key = "0684a0026e6a605015688a6df96fead"
+app_id = "10050001"
+app_key = "123456"
+
+
+# 开发/生产环境区分
+[env.dev]
+debug = true
+logLevel = "debug"
+
+[env.prod]
+debug = false
+logLevel = "info"
