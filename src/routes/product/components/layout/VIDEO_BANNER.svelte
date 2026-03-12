@@ -68,12 +68,12 @@
         position: sticky;
         top: 55px;
         z-index: 50;
-        background: #ffffff;
+        background: var(--bg-title_bar);
         border-bottom: 1px solid #eee;
     }
 
     .wrapper {
-        padding: 12px 16px;
+        padding: 6px 16px;
     }
 
     .search_bar {

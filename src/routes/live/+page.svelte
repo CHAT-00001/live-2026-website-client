@@ -450,8 +450,8 @@
     .main-thumb {
         width: 100%;
         height: auto;
-        aspect-ratio: 2 / 2;
-        border-radius: 20px;
+        aspect-ratio: 3 / 4;
+        border-radius: 5px;
         overflow: hidden;
         margin-bottom: 12px;
     }

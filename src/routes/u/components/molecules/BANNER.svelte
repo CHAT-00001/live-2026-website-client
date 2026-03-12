@@ -1,27 +1,16 @@
 <!-- src/routes/u/components/molecules/BANNER.svelte -->
+
+
 <script lang="ts">
 
     export let uid: string = '1000008018';
     export let touid: string = '1000004258';
     export let user: any = null; // 接收父组件传递的user
 
-    // 新增：如果父组件未传递user，使用默认值兜底（防止报错）
-    // user = user || {
-    //     id: 1000008018,
-    //     _id: "adcfcfee55115e1155ad445664efcc",
-    //     uid: 1000008804,
-    //     user_nickname: "未知用户-10086",
-    //     avatar: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
-    //     bg_img: "",
-    //     age: 17,
-    //     from: "欧洲 - 冰岛",
-    //     ip: "中国.广东.深圳",
-    //     location: "21.161444,120.125441"
-    // };
 </script>
 
 <!-- DOM结构完全不变 -->
-<div class="banner_640">
+<div class="banner_bar">
     <div class="banner"
          style="background: url('{user?.bg_img}') center; background-size: cover">
 
@@ -71,9 +60,15 @@
 
 <!-- CSS样式完全不变 -->
 <style>
+
     .banner_640 {
         height: 640px;
         background: var(--bg-primary);
+    }
+
+    .banner {
+        margin: 0 auto;
+        max-width: 1440px;
     }
 
     .user_info {

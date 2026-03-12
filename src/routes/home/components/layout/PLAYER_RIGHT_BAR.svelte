@@ -78,8 +78,8 @@
     .right_bar {
         position: absolute;
         right: 4px;
-        bottom: 80px;
-        width: 64px;
+        bottom: 70px;
+        width: 70px;
         z-index: 100;
         color: white;
         text-align: center;
@@ -87,7 +87,7 @@
 
     .right_bar .avatar {
         position: relative;
-        margin: 20px auto;
+        margin: 2rem auto;
         width: 48px;
     }
 
@@ -147,79 +147,4 @@
         margin-top: 15px;
     }
 
-    /* 3. 屏幕 1200-4800px：基准 h4 = 24px */
-    @media (min-width: 1600px) and (max-width: 4800px) {
-        .right_bar {
-            position: absolute;
-            right: 8px;
-            bottom: 80px;
-            width: 128px;
-            z-index: 100;
-            color: white;
-            text-align: center;
-        }
-
-        .right_bar .avatar {
-            position: relative;
-            margin: 40px auto;
-            width: 96px;
-        }
-
-        .right_bar .item .icon {
-            font-size: 56px;
-            color: #ffffff;
-            opacity: 0.9;
-        }
-
-        .right_bar .add {
-            display: block;
-            position: absolute;
-            left: 28px;
-            bottom: -14px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f00;
-            color: #fff;
-            line-height: 35px;
-            font-size: 32px;
-            font-weight: bold;
-        }
-
-        .avatar_48_r50p {
-            display: block;
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-            object-fit: cover;
-        }
-
-        .music {
-            margin: 10px auto;
-            width: 96px;
-        }
-
-        .music-rotate {
-            animation: rotate 5s linear infinite;
-            animation-play-state: paused;
-        }
-
-        .music-rotate.on {
-            animation-play-state: running;
-        }
-
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .item > div {
-            margin-top: 15px;
-        }
-    }
 </style>

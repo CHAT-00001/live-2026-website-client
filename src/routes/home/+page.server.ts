@@ -1,16 +1,23 @@
 // routes/video/home/+page.server.ts
+
 import {getVideoList} from '$lib/api/video.ts';
-import type {ApiRequestBody} from '$lib/models/api.ts';
+import type {ApiUrlParms} from '$lib/models/api.ts';
 import {error} from '@sveltejs/kit';
 import type {PageServerLoad} from './$types';
 
-
+/**
+ * 视频列表SSR数据结果构造
+ * @param url
+ * @param locals
+ */
 export const load: PageServerLoad = async ({url, locals}) => {
+
     // 1. 构造参数（可以从 locals 拿到 requestId 用于全链路追踪）
-    const params: ApiRequestBody = {
+    const params: ApiUrlParms = {
         lat: url.searchParams.get('lat') ?? '',
         lng: url.searchParams.get('lng') ?? '',
-        p: Number(url.searchParams.get('p') || 1)
+        p: Number(url.searchParams.get('p') || 1),    // 兼容旧版PHP接口
+        page: Number(url.searchParams.get('page') || 1)
     };
 
     try {
@@ -23,7 +30,7 @@ export const load: PageServerLoad = async ({url, locals}) => {
                 // ⚡ 这里的数据会变成前端的 $props().data.videos
                 videos: result.data.info,
                 pagination: {
-                    current_page: params.p,
+                    current_page: params.page,
                     // 如果 info 长度达到 PAGE_SIZE(20)，通常认为还有下一页
                     has_more: result.data.info.length >= 20
                 },
@@ -35,7 +42,7 @@ export const load: PageServerLoad = async ({url, locals}) => {
         // 4. 兜底返回
         return {
             videos: [],
-            pagination: {current_page: params.p, has_more: false}
+            pagination: {current_page: params.page, has_more: false},
         };
 
     } catch (err) {

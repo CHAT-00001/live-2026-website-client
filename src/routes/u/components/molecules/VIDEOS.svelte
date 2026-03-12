@@ -1,4 +1,6 @@
 <!-- src/routes/u/[id]/components/molecules/VIDEOS.svelte -->
+
+
 <script lang="ts">
     import {onMount} from 'svelte';
     import type {Info} from '$lib/models/dynamic';
@@ -13,17 +15,17 @@
     let maxPages = 20;
     let imgLoaded: boolean[] = [];
     let hasMore = true;
-    let total = 0; // 存储总视频数，用于渲染
-    let apiError = false; // 标记 API 是否出错
+    let total = 0;
+    let apiError = false;
 
     const lat = '22.332214';
     const lng = '108.361544';
     console.log("广西南宁市")
 
+    // 图片加载失败直接删除
     const handleImgError = (e: Event) => {
         const img = e.target as HTMLImageElement;
-        // 图片加载失败时替换为默认图（可根据需求修改默认图路径）
-        img.src = '/default-img.png';
+        img.remove();
     };
 
     function formatNumber(views: any) {
@@ -44,16 +46,15 @@
             if (!res.ok) throw new Error('API Error');
             const data = await res.json();
 
-            // 累加数据并更新分页状态
             list = [...list, ...data.data.info];
-            total = data.data.total || 0; // 假设 API 返回 total 总条数
+            total = data.data.total || 0;
             hasMore = data.data.info.length > 0 && p < maxPages;
             p += 1;
-            apiError = false; // 重置错误状态
+            apiError = false;
         } catch (err) {
             console.error(err);
-            apiError = true; // 标记 API 错误
-            hasMore = false; // 出错后停止加载
+            apiError = true;
+            hasMore = false;
         } finally {
             loading = false;
         }
@@ -63,8 +64,8 @@
         loadMore();
 
         const handleScroll = () => {
-            // 加载中或无更多数据时，不再触发加载
             if (loading || !hasMore) return;
+
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
                 loadMore();
             }
@@ -79,6 +80,7 @@
     <header>
         <h1>VIDEOS</h1>
         <h4>视频（{formatNumber(total)}）</h4>
+
         {#if list.length > 0}
             <p class="total-count">共 {formatNumber(total)} 条内容</p>
         {/if}
@@ -90,41 +92,69 @@
             <p class="empty-text">哇！这里还是空的呀~！</p>
             <p class="error-msg">数据加载失败，请稍后重试</p>
         </div>
+
     {:else if list.length === 0 && !loading}
         <div class="empty-state">
             <h1>404</h1>
+            <p class="bq"><img src="/assets/images/bq/cat_01.gif"/></p>
             <p class="empty-text">哇！这里还是空的呀~！</p>
             <p class="default-msg">暂无视频数据，敬请期待</p>
         </div>
+
     {:else if list.length > 0}
         <div class="video-grid">
             {#each list as item (item.id)}
-                <a href={`/video/${item.id}?display=1&room_id=${item.id}_5100048914&r_mm=00000111114444466666`}
-                   target="_blank" class="video-card">
+                <a
+                        href={`/video/${item.id}?display=1&room_id=${item.id}_5100048914&r_mm=00000111114444466666`}
+                        target="_blank"
+                        class="video-card"
+                >
+
                     <div class="thumbnail-wrapper">
-                        <img src={item.thumb} alt={item.title || '视频封面'} class="thumbnail" loading="lazy"
-                             on:error={handleImgError}/>
-                        <span class="duration">{item.duration || '00:00' }</span>
+
+                        {#if item.thumb}
+                            <img
+                                    src={item.thumb}
+                                    alt={item.title || '视频封面'}
+                                    class="thumbnail"
+                                    loading="lazy"
+                                    on:error={handleImgError}
+                            />
+                        {/if}
+
+                        <span class="duration">{item.duration || '00:00'}</span>
                         <span class="views-count">{formatNumber(item.views)}</span>
                     </div>
+
                     <div class="video-info">
+
                         <div class="author-info">
-                            <img src={item.avatar || '/default-avatar.png'} alt={`${item.user_nickname || '未知作者'}的头像`}
-                                 class="author-avatar" on:error={handleImgError}/>
+
+                            {#if item.avatar}
+                                <img
+                                        src={item.avatar}
+                                        alt={`${item.user_nickname || '未知作者'}的头像`}
+                                        class="author-avatar"
+                                        on:error={handleImgError}
+                                />
+                            {/if}
+
                             <span class="author-name">{item.user_nickname || '未知作者'}</span>
                         </div>
+
                         <h3 class="video-title">{item.title || '无标题'}</h3>
+
                         <div class="stats">
                             <span class="like-count">❤️ {formatNumber(item.likes)}</span>
                             <span class="comment-count">💬 {formatNumber(item.comments)}</span>
                             <span class="share-count">📤 {formatNumber(Number(item.shares) || 0)}</span>
                         </div>
+
                     </div>
                 </a>
             {/each}
         </div>
 
-        <!-- 仅保留加载中提示和无更多内容提示，移除按钮 -->
         <div class="load-more">
             {#if loading}
                 <p>加载中...</p>
@@ -149,12 +179,13 @@
 
     .video-list-container {
         margin: 0 auto;
+        max-width: 1440px;
         padding: 2rem 1rem;
     }
 
     .video-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
         gap: 1.5rem;
         margin-bottom: 2rem;
     }
@@ -252,5 +283,13 @@
         text-align: center;
         padding: 2rem 0;
         font-size: 16px;
+    }
+
+    .bq img {
+        width: 160px;
+    }
+
+    .default-msg {
+        font-size: 12px;
     }
 </style>

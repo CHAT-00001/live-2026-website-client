@@ -35,6 +35,23 @@ export interface ApiRequestBody {
     lng?: string;                         // 经度
     keyword?: string;                     // 关键词
     p?: number;                           // 页码
+    page?: number;                        // 页码
+    uid?: number | string;                // 用户id
+    token?: string;                       // token
+}
+
+/**
+ * ApiUrlParms - URL请求参数
+ */
+export interface ApiUrlParms {
+    id?: number;                          // id
+    video_id?: string;                    // 视频id
+    touid?: string;                       // 目标用户id
+    lat?: string;                         // 纬度
+    lng?: string;                         // 经度
+    keyword?: string;                     // 关键词
+    p?: number;                           // 页码
+    page?: number;                        // 页码
     uid?: number;                         // 用户id
     token?: string;                       // token
 }

@@ -255,7 +255,7 @@
 <style>
     /* CSS 原封不动保留，仅在底部增加发送状态样式 */
     .chat {
-        max-width: 720px;
+        /*max-width: 720px;*/
         margin: 0 auto;
         height: 580px;
         display: flex;

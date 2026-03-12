@@ -1,11 +1,43 @@
 <!-- src/lib/molecules/Menu.svelte -->
+
+<!-- 顶部状态栏  -->
+
+
 <script lang="ts">
     import {page} from '$app/stores';
     import {theme, toggleTheme} from "$lib/stores/theme_store.ts";
+    import {user as userStore} from '$lib/stores/user'; // ✅ 引入用户信息 Store
 
     // 透明背景
     let {isHome} = $props();
 
+    // 退出登录
+    async function handleLogout() {
+        if (!confirm('确定要退出登录吗？')) return;
+
+        try {
+            // 1. 请求服务端清理 Cookie
+            const res = await fetch('/api/login/logout', {method: 'POST'});
+
+            if (res.ok) {
+                // 2. 清理前端 Store
+                userStore.set(null);
+
+                // 3. 发射信号通知其他标签页同步
+                localStorage.setItem('auth-event', 'logout-' + Date.now());
+
+                // 4. 强制刷新或跳转，确保 locals 被重置
+                window.location.href = "/";
+            }
+        } catch (err) {
+            console.error("注销失败:", err);
+            // 兜底方案：至少先清了本地
+            userStore.set(null);
+            window.location.reload();
+        }
+    }
+
+    // 菜单标签
     const menu = [
         {
             id: 1,
@@ -125,7 +157,7 @@
                     {#each menu as item}
                         <!-- ✅ 核心修改：路由匹配高亮，添加class判断，其他不变 -->
                         <a target="_top" href={item.url} class="menu-item"
-                           class:active={$page.url.pathname === item.url}>
+                           class:active={$page.url.pathname === item.url} data-sveltekit-reload>
                             <span class="icon_20">{@html item.icon}</span>
                             <span>{item.name_zh || item.name}</span>
                         </a>
@@ -140,16 +172,16 @@
             </div>
         </div>
         <div class="right_bar">
-            <a href="/">
+            <a href="/console">
                 <i>
                     <svg class="bi bi-gear-fill" fill="currentColor" height="16" viewBox="0 0 16 16"
                          width="16" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
                     </svg>
                 </i>
-                <text>设置</text>
+                <text>控制台</text>
             </a>
-            <a href="/notify"><i>
+            <a data-sveltekit-reload href="/notify"><i>
                 <svg class="bi bi-toggles" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
                      xmlns="http://www.w3.org/2000/svg">
                     <path d="M4.5 9a3.5 3.5 0 1 0 0 7h7a3.5 3.5 0 1 0 0-7zm7 6a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m-7-14a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5m2.45 0A3.5 3.5 0 0 1 8 3.5 3.5 3.5 0 0 1 6.95 6h4.55a2.5 2.5 0 0 0 0-5zM4.5 0h7a3.5 3.5 0 1 1 0 7h-7a3.5 3.5 0 1 1 0-7"/>
@@ -157,7 +189,7 @@
             </i>
                 <text>通知</text>
             </a>
-            <a href="/im?client_id=1001ade84166e_1000015847&season=1"><i>
+            <a data-sveltekit-reload href="/im?client_id=1001ade84166e_1000015847&season=1"><i>
                 <svg class="bi bi-chat-fill" fill="currentColor" height="16" viewBox="0 0 16 16"
                      width="16" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
@@ -166,7 +198,7 @@
                 <text>消息</text>
                 <qty>[9999]</qty>
             </a>
-            <button class="theme-toggle" on:click={toggleTheme} title={$theme === 0 ? '切换深色主题' : '切换浅色主题'}>
+            <button class="theme-toggle" onclick={toggleTheme} title={$theme === 0 ? '切换深色主题' : '切换浅色主题'}>
                 {#if $theme === 0}
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-moon-fill" viewBox="0 0 16 16">
@@ -179,10 +211,22 @@
                     </svg>
                 {/if}
             </button>
-            <a href="/"><img alt="柠檬味的你" class="avatar_32"
-                             src="http://cdn1.damawei.com/20200420_5e9caa158b1f9.jpg"/></a>
-            <a href="/">柠檬味的你</a>
-            <a href="/">[退出]</a>
+            {#if $userStore}
+                <div class="user-profile">
+                    <a target="_top" href="/u/{$userStore.uid}">
+                        <img alt={$userStore.user_nickname} class="avatar_32"
+                             src={$userStore.avatar || '/default-avatar.png'}/>
+                    </a>
+                    <a target="_top" href="/u/{$userStore.uid}" class="nickname">{$userStore.user_nickname}</a>
+                    <a href="#" onclick={handleLogout}>[退出]</a>
+                </div>
+            {:else}
+                <div class="login-actions">
+                    <a href="/login" class="login-link">登录</a>
+                    <span>/</span>
+                    <a href="/register" class="login-link">注册</a>
+                </div>
+            {/if}
         </div>
     </div>
 </div>

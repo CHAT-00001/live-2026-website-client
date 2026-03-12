@@ -66,10 +66,12 @@
             <!-- 00000 -->
             <div class="dynamic-item" id="{item.id.toString()}">
                 <div class="user_info">
-                    <div class="avatar_48"><a target="_blank" href="/u/{item.uid}"><img class="avatar_48"
-                                                                                        src="{item.userinfo.avatar}?imageView2/1/w/100/h/100"/>
-                    </a></div>
-                    <div class="nickname"><a target="_blank" href="/u/{item.uid}">{item.userinfo.user_nickname}</a>
+                    <div class="avatar_48">
+                        <a target="_blank" href="/u/{item.uid}"><img class="avatar_48"
+                                                                     src="{item.userinfo.avatar}?imageView2/1/w/100/h/100"/>
+                        </a></div>
+                    <div class="nickname">
+                        <a target="_blank" href="/u/{item.uid}">{item.userinfo.user_nickname}</a>
                     </div>
                 </div>
                 <a class="name" target="_blank" href="/product/{item.id}"><h5>{item.title}</h5></a>
@@ -80,10 +82,10 @@
                 <label class="orange_price"><h5>249.00</h5></label>
                 <div class="info">
                     <a target="_blank" href="/product/{item.id}"><img class="thumb"
-                                                                      src="{item.thumb}?imageView2/1/w/400/h/400"/></a>
+                                                                      src="{item.thumb}?imageView2/1/w/200/h/200"/></a>
                 </div>
                 <div class="option">
-                    <div class="data">{item.addtime}</div>
+                    <div class="data"><label class="time">{item.addtime}</label></div>
                     <div class="distance">City：{item.city} Address：{item.address}  距离: {item.distance}</div>
                     <div class="menu">
                         点赞: {item.likes} 评论: {item.comments}
@@ -115,7 +117,10 @@
         margin: 0 10px;
         opacity: 1;
         transition: opacity 0.5s;
-        width: 200px;
+        width: 100px;
+        height: 100px;
+        aspect-ratio: 1 / 1;
+        background: #eeeeee;
     }
 
     .thumb.fade-in {
@@ -124,7 +129,7 @@
 
     .dynamic-item {
         display: flex;
-        margin: 20px;
+        /*margin: 20px;*/
         padding: 20px;
         border-radius: 20px;
         background: #ffffff;
@@ -139,6 +144,7 @@
 
     .user_info {
         display: flex;
+        align-content: center;
         min-width: 200px;
     }
 
@@ -153,14 +159,22 @@
         min-width: 120px;
     }
 
+    .time {
+        color: #00ff00;
+        font-size: 14px;
+    }
+
     .avatar_48 {
         width: 48px;
         height: 48px;
+        aspect-ratio: 1 / 1;
         border-radius: 10%;
     }
 
     .nickname {
+        display: flex;
         margin: 10px;
+        align-items: center;
     }
 
     .photo {

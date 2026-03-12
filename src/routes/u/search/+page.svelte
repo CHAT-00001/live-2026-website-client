@@ -206,14 +206,22 @@
         overflow: hidden;
     }
 
-    .search_bar, .hot_search_bar {
+    .search_bar {
+        display: flex;
+        align-items: center;
         margin: 15px 0;
+        height: 32px;
+    }
+
+    .hot_search_bar {
+        font-size: 14px;
+        color: var(--text-primary);
     }
 
     .search_bar input {
         padding: 6px 10px;
         width: 280px;
-        height: 24px;
+        height: 32px;
         border-radius: 4px;
         border: 1px solid #eee;
         outline: none;

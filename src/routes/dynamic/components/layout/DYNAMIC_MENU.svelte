@@ -69,12 +69,11 @@
         top: 55px;
         width: 100%;
         z-index: 50;
-        background: var(--bg-primary);
-        border-bottom: 1px solid var(--border-bottom-color);
+        background: var(--bg-title_bar);
     }
 
     .wrapper {
-        padding: 12px 16px;
+        padding: 6px 16px;
     }
 
     .search_bar {
@@ -145,7 +144,7 @@
     .title {
         font-size: 18px;
         font-weight: 600;
-        color: #111;
+        color: var(--text-primary);
     }
 
     .tab_menu {

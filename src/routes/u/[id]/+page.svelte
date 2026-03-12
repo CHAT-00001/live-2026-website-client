@@ -1,124 +1,44 @@
-<!-- 父组件：src/routes/u/[id]/+page.svelte（假设路径） -->
+<!-- src/routes/u/[id]/+page.svelte -->
+
+
+
+
+
 <script lang="ts">
-    import {onMount} from 'svelte';
     import {fade} from 'svelte/transition';
-    import {page} from '$app/stores';
-    import BANNER from "../components/molecules/BANNER.svelte";
     import VIDEOS from "../components/molecules/VIDEOS.svelte";
-    import type {Info} from '$lib/models/dynamic';
-    import {browser} from '$app/environment'; // 新增：区分SSR/CSR
 
-    let list: Info[] = [];
-    let p = 1;
-    let loading = false;
-    let maxPages = 20;
-    let imgLoaded: boolean[] = [];
-
-    let touid: string = '';  // 目标用户 ID
-    let uid: string = '1000010441';    // 当前登录用户 ID
-    let user: any = null; // 新增：父组件存储用户数据
-
-    // 从 URL 获取目标用户 ID
-    $: touid = $page.params.id;
-    console.log('id:', touid)
-
-    // 新增：父组件统一获取用户数据（复用BANNER原逻辑）
-    async function fetchUserInfo() {
-        if (!browser || !touid) return;
-        try {
-            const res = await fetch(`/api/u/${touid}?p=1`);
-            const data = await res.json();
-
-            if (!data.error && data.data?.info?.length) {
-                user = data.data.info[0]; // 赋值给父组件user
-            } else {
-                console.warn('API 返回错误或 info 为空', data);
-                // 使用默认值
-                // user = {
-                //     id: 1000008018,
-                //     _id: "adcfcfee55115e1155ad445664efcc",
-                //     uid: 1000008804,
-                //     user_nickname: "未知用户-10086",
-                //     avatar: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
-                //     bg_img: "",
-                //     age: 17,
-                //     from: "欧洲 - 冰岛",
-                //     ip: "中国.广东.深圳",
-                //     location: "21.161444,120.125441"
-                // };
-            }
-        } catch (err) {
-            console.error('请求用户信息失败', err);
-            // 使用默认值
-            // user = {
-            //     id: 1000008018,
-            //     _id: "adcfcfee55115e1155ad445664efcc",
-            //     uid: 1000008804,
-            //     user_nickname: "未知用户-10086",
-            //     avatar: "https://img.alicdn.com/imgextra/i1/2212688966599/O1CN01RA6su81ycOcYNyeT9_!!2212688966599.jpg",
-            //     bg_img: "",
-            //     age: 17,
-            //     from: "欧洲 - 冰岛",
-            //     ip: "中国.广东.深圳",
-            //     location: "21.161444,120.125441"
-            // };
-        }
-    }
-
-    async function loadMore(reset = false) {
-        if (loading || p > maxPages) return;
-        loading = true;
-
-        try {
-            const params = new URLSearchParams({ p: p.toString() });
-            const res = await fetch(`/api/u/${touid}?${params.toString()}`);
-            if (!res.ok) throw new Error('API Error');
-
-            const data = await res.json();
-            const infoList: Info[] = data.data.info;
-
-            list = reset ? infoList : [...list, ...infoList];
-            p += 1;
-        } catch (err) {
-            console.error(err);
-        } finally {
-            loading = false;
-        }
-    }
-
-    onMount(() => {
-        if (touid) {
-            fetchUserInfo(); // 新增：先获取用户数据
-            loadMore();      // 再加载动态列表
-        }
-
-        const handleScroll = () => {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
-                loadMore();
-            }
+    // 1. 定义接口以获得完美的类型提示
+    // 这里的 data 类型通常对应你 +page.ts 或 +page.server.ts 的返回值
+    interface Props {
+        data: {
+            user?: {
+                user_nickname?: string;
+            };
+            touid: string | number;
+            [key: string]: any; // 允许其他可能的字段
         };
+    }
 
-        if (browser) { // 新增：仅客户端添加滚动监听
-            window.addEventListener('scroll', handleScroll);
-            return () => window.removeEventListener('scroll', handleScroll);
-        }
-    });
+    // 2. 接收 SvelteKit 注入的 data
+    let {data}: Props = $props();
+
+    // 3. 使用 $derived 确保响应式（当 data 变化时，这些变量会自动更新）
+    // 这样就解决了 "Property user does not exist" 的问题，因为我们是从 data 里拿的
+    const user = $derived(data.user);
+    const touid = $derived(data.touid);
+
+    const name = "封面";
+
+    const siteName = "你的网站名称";
+
+    // 4. 动态生成页面标题
+    const pageTitle = $derived(`${user?.user_nickname || '用户'} - [${touid}] - ${name} - ${siteName}`);
 </script>
 
 <svelte:head>
-    <title>{user?.user_nickname || '未知用户'} - [{user?.id || '0'}] - 动态 - 网站标题</title>
+    <title>{pageTitle}</title>
 </svelte:head>
-
-<!-- 修改：将父组件的user数据传递给BANNER -->
-<div class="banner_640">
-    <BANNER {uid} {touid} {user} />
-</div>
-
-<!--<div class="live_bar">-->
-<!--    <a target="_blank" href="/u/1000004258">-->
-<!--        <div class="led" style="margin: 20px; background: url(http://cdn1.damawei.com/android_10014120_20250118_185012_4511339.jpg); background-size: cover;"></div>-->
-<!--    </a>-->
-<!--</div>-->
 
 <VIDEOS {touid} />
 
@@ -136,55 +56,6 @@
     </div>
 </div>
 
-<div class="wrapper">
-    <div class="dynamic-list">
-        {#each list as item (item.id)}
-            <div class="dynamic-item">
-                <div class="user_info">
-                    <div class="avatar_48">
-                        <a target="_blank" href="/u/{item.uid}">
-                            <img class="avatar_48" src="{item.userinfo.avatar}" />
-                        </a>
-                    </div>
-                    <div class="nickname">
-                        <a target="_blank" href="/u/{item.uid}">{item.userinfo.user_nickname}</a>
-                    </div>
-                </div>
-
-                <h4>{item.title}</h4>
-
-                <div class="info">
-                    {#each item.thumbs as thumb}
-                        <div class="photo">
-                            <img
-                                    class="thumb"
-                                    src={thumb}
-                                    loading="lazy"
-                                    on:load={() => imgLoaded[0] = true}
-                                    in:fade={{ duration: 500 }}
-                            />
-                        </div>
-                    {/each}
-                    {#if item.video_thumb}
-                        <video src={item.href} poster={item.video_thumb} controls width="480"></video>
-                    {/if}
-                </div>
-
-                <div class="option">
-                    <div class="data">{item.addtime}</div>
-                    <div class="distance">位置：{item.city} 距离: {item.distance}</div>
-                    <div class="menu">
-                        点赞: {item.likes} 评论: {item.comments}
-                    </div>
-                </div>
-            </div>
-        {/each}
-
-        {#if loading}
-            <p>加载中...</p>
-        {/if}
-    </div>
-</div>
 
 <style>
     /* 样式完全不变 */

@@ -165,15 +165,16 @@
     }
 
     .notice {
-        height: 28px;
+        height: 50px;
         line-height: 1;
         font-size: 16px;
-        color: #000;
+        color: #ffffff;
         font-weight: 500;
         display: flex;
         align-items: center;
         overflow: hidden;
         white-space: nowrap;
+        text-align: center;
         text-overflow: ellipsis;
     }
 

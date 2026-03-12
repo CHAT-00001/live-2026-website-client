@@ -1,5 +1,4 @@
-// src/lib/api/dynamic.ts
-// 动态Api请求 2025-12-22 12:33:10
+// src/lib/api/dynamic.ts  --  动态Api请求  2025-12-22 12:33:10
 
 
 import type {ApiRequest, ListResponse} from '$lib/models/dynamic';
@@ -15,7 +14,7 @@ import listJson from '$lib/data/dynamic/list.json';
  */
 export async function getNewDynamic(req: ApiRequest): Promise<ListResponse> {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
+    const timeout = setTimeout(() => controller.abort(), 5000);
 
     const url = new URL('http://api2.damawei.com:8080/appapi/');
     url.searchParams.set('s', 'dynamic.getNewDynamic');
@@ -43,7 +42,7 @@ export async function getNewDynamic(req: ApiRequest): Promise<ListResponse> {
  */
 export async function getRecommendDynamics(req: ApiRequest): Promise<ListResponse> {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
+    const timeout = setTimeout(() => controller.abort(), 5000);
 
     const url = new URL('http://api2.damawei.com:8080/appapi/');
     url.searchParams.set('s', 'dynamic.getRecommendDynamics');
@@ -71,7 +70,7 @@ export async function getRecommendDynamics(req: ApiRequest): Promise<ListRespons
  */
 export async function getNearbyDynamic(req: ApiRequest): Promise<ListResponse> {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
+    const timeout = setTimeout(() => controller.abort(), 5000);
 
     const url = new URL('http://api2.damawei.com:8080/appapi/');
     url.searchParams.set('s', 'dynamic.getNearby2');

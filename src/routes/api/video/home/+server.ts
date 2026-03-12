@@ -4,6 +4,7 @@ import { getHomeVideo } from '$lib/api/video.ts';
 import type { ApiRequestBody } from '$lib/models/api.ts';
 import type { RequestHandler } from './$types';
 
+// @ts-ignore
 export const GET: RequestHandler = async ({ url }) => {
     const params: ApiRequestBody = {
         touid: url.searchParams.get('touid') || '1000001156',

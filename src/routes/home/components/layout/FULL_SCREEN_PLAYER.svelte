@@ -353,7 +353,7 @@
     .music-marquee span {
         display: inline-block;
         padding-left: 100%;
-        animation: music-scroll 10s linear infinite;
+        animation: music-scroll 8s linear infinite;
     }
 
     .music-marquee:hover span {

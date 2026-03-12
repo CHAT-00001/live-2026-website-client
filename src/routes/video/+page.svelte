@@ -65,15 +65,18 @@
         {#each list as item (item.id)}
             <div class="dynamic-item" id="{item.id.toString()}">
                 <div class="user_info">
-                    <div class="avatar_48"><a target="_blank" href="/u/{item.uid}"><img class="avatar_48"
+                    <div class="avatar_48"><a target="_blank" href="/u/{item.uid}" data-sveltekit-reload><img
+                            class="avatar_48"
                                                                                         src="{item.userinfo.avatar}"/>
                     </a></div>
-                    <div class="nickname"><a target="_blank" href="/u/{item.uid}">{item.userinfo.user_nickname}</a>
+                    <div class="nickname"><a target="_blank" href="/u/{item.uid}"
+                                             data-sveltekit-reload>{item.userinfo.user_nickname}</a>
                     </div>
                 </div>
-                <a target="_blank" href="/video/{item.id}"><h4>{item.title}</h4></a>
+                <a target="_blank" href="/video/{item.id}" data-sveltekit-reload><h4>{item.title}</h4></a>
                 <div class="info">
-                    <a target="_blank" href="/video/{item.id}"><img class="thumb" src="{item.thumb}"/></a>
+                    <a target="_blank" href="/video/{item.id}" data-sveltekit-reload><img class="thumb"
+                                                                                          src="{item.thumb}"/></a>
                 </div>
                 <div class="option">
                     <div class="data">{item.addtime}</div>

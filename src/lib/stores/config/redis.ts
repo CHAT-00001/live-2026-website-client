@@ -1,6 +1,7 @@
 // src/lib/server/redis.ts
 
 import {createClient} from 'redis';
+// @ts-ignore
 import {config} from './config';
 
 // 构造连接字符串 (redis://user:pass@host:port/db)

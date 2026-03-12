@@ -34,7 +34,7 @@
            class="player_2024"
            loop
            muted
-           src="/assets/images/video/b02.mp4"
+           src="https://cdn1.damawei.com/1050.mp4"
            width="100%"
     ></video>
 </div>

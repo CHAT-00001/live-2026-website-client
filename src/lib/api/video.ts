@@ -1,6 +1,6 @@
 // src/api/video.ts - 2026-01-10 04:38:45
 
-import {type ApiResponse, get_api} from "$lib/network";
+import {type ApiResponse, get_api} from "$lib/app.ts";
 import type {ListResponse, VideoListResponse} from "$lib/models/video.ts";
 import listJson from '$lib/data/video/list.json';
 import type {ApiRequestBody} from "$lib/models/api.ts";
@@ -33,9 +33,50 @@ export async function get_video_by_id(
 
 /**
  * VIDEO LIST - 视频列表
+ * @param req 这里的 req 现在接受前端习惯的 page 字段
+ */
+export async function getVideoList(req: ApiRequestBody & { page?: number }): Promise<ListResponse> {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
+    const url = new URL('https://api2.damawei.com:8080/appapi/');
+    url.searchParams.set('s', 'video.getVideoList');
+
+    // --- 核心转换逻辑 ---
+    // 1. 优先取 req.page (Svelte传参习惯)，没有则取 req.p，默认 1
+    const targetPage = (req.page || req.p || 1).toString();
+
+    // 检查page参数
+    console.log("Page页码是:", targetPage);
+    url.searchParams.set('p', targetPage);
+
+    // 处理经纬度
+    if (req.lat) url.searchParams.set('lat', req.lat);
+    if (req.lng) url.searchParams.set('lng', req.lng);
+
+    try {
+        const res = await fetch(url.toString(), {signal: controller.signal});
+        clearTimeout(timeout);
+
+        if (!res.ok) throw new Error(`API Error: ${res.status}`);
+
+        const data = (await res.json()) as ListResponse;
+
+        // 打印出最终请求的 URL，方便你直接在浏览器调试
+        console.info(`[API Request]: ${url.toString()}`);
+        return data;
+
+    } catch (e) {
+        console.warn('⚠️ 请求失败，返回本地 mock 数据:', e);
+        return listJson as ListResponse;
+    }
+}
+
+/**
+ * VIDEO LIST - 视频列表
  * @param req
  */
-export async function getVideoList(req: ApiRequestBody): Promise<ListResponse> {
+export async function getVideoList2(req: ApiRequestBody): Promise<ListResponse> {
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
@@ -129,7 +170,7 @@ export async function getHomeVideo(req: ApiRequestBody): Promise<ListResponse> {
         if (!res.ok) throw new Error('API Error');
         const data = (await res.json()) as ListResponse;
         let touid = req.touid;
-        console.info("api/video: 获取用户视频列表好啦~！ touid:", touid)
+        console.info("[API]api/video: 获取用户视频列表好啦~！ touid:", touid)
         return data;
     } catch (e) {
         console.warn('请求超时或失败，使用本地数据', e);
@@ -165,6 +206,39 @@ export async function getComments(req: ApiRequestBody): Promise<ListResponse> {
         if (!res.ok) throw new Error('API Error');
         const data = (await res.json()) as ListResponse;
         console.info("api/video: 获取评论列表好啦~！", data)
+        return data;
+    } catch (e) {
+        console.warn('请求超时或失败，使用本地数据', e);
+        return listJson as ListResponse;
+    }
+}
+
+
+/**
+ * VIDEO LIKE - 点赞视频
+ * @param req
+ */
+export async function setVideoLike(req: ApiRequestBody): Promise<ListResponse> {
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
+    const url = new URL('https://api2.damawei.com:8080/appapi/');
+    url.searchParams.set('s', 'video.getVideoList');
+    if (req.lat != null) {
+        url.searchParams.set('lat', req.lat);
+    }
+    if (req.lng != null) {
+        url.searchParams.set('lng', req.lng);
+    }
+    url.searchParams.set('p', (req.p || 1).toString());
+
+    try {
+        const res = await fetch(url.toString(), {signal: controller.signal});
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error('API Error');
+        const data = (await res.json()) as ListResponse;
+        console.info("api/video: 获取视频列表好啦~！page = {$p}")
         return data;
     } catch (e) {
         console.warn('请求超时或失败，使用本地数据', e);

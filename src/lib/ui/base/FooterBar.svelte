@@ -20,7 +20,7 @@
                 <div class="footer_logo">
                     <i class="bi bi-chat-left-fill fs-3 mx-2"></i>
                 </div>
-                <div>copyright {currentYear}</div>
+                <div>copyright ©{currentYear}</div>
             </div>
         </div>
         <div class="item">
